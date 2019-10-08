@@ -14,6 +14,10 @@
 // Protect routes with middleware Guest
 Route::group(['middleware' => ['guest']] , function ()
 {
+    Route::get('/admin' , function(){
+        return view('admintemplate.login');
+    });
+    
     Route::get('/', function () {
         return view('usertemplate.index');
     });
@@ -21,12 +25,14 @@ Route::group(['middleware' => ['guest']] , function ()
    
 });
 Auth::routes(['verify' => true]);
+
+Route::post('/admin/home' , "AdminControllers\AdminController@login")->name("loginAdmin");
 // Protect routes with middleware Auth
 Route::group(['middleware' => ['auth']] , function ()
 {
    
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('posts' , "FrontEndControllers\PostController");
-    // Route::get('/create', 'Post\PostsController@index')->name('create');
+   
 });
 

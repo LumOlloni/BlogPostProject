@@ -25,8 +25,8 @@ class PostValidation extends FormRequest
     {
         return [
             'title' => 'required|max:20',
-            'description' => 'required|max:150',
-            'slug' => 'required|alpha_dash|min:5|max:255',
+            'description' => 'required|max:255',
+            'slug' => 'required|alpha_dash|min:5|max:80',
             'img' =>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }

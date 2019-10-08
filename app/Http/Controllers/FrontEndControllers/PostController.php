@@ -16,6 +16,11 @@ use Auth;
 
 class PostController extends Controller
 {
+    public function index()
+    {
+        return view('usertemplate.post');
+    }
+
     public function create(){
         $cat = Category::all();
         return view('usertemplate.create')->with('category' , $cat);
@@ -23,7 +28,6 @@ class PostController extends Controller
 
     public function store(PostValidation $request){
       
-
         $post = new Post;
         $post->slug = $request->input('slug'); 
         $post->title = $request->input('title'); 
