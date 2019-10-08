@@ -15,7 +15,7 @@
 Route::group(['middleware' => ['guest']] , function ()
 {
     Route::get('/', function () {
-        return view('UserTemplate.index');
+        return view('usertemplate.index');
     });
     Auth::routes();
    
@@ -26,7 +26,7 @@ Route::group(['middleware' => ['auth']] , function ()
 {
    
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::resource('posts' , "Post\PostsController");
+    Route::resource('posts' , "FrontEndControllers\PostController");
     // Route::get('/create', 'Post\PostsController@index')->name('create');
 });
 

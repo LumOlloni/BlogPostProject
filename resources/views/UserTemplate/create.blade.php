@@ -4,28 +4,53 @@
 <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2 mx-auto mt-4">
-                <h1>Create post</h1>
-                <form action="" method="POST"> 
-                    <div class="form-group has-error">
+                <h1 class="text-center">Create post</h1>
+            <form action="{{route('posts.store')}}" method="POST" enctype="multipart/form-data">
+                @csrf 
+                    <div class="form-group ">
                         <label for="slug">Slug </label>
-                        <input type="text" class="form-control" name="slug" />
+                        <input placeholder="Enter Slug for Post" type="text" class="form-control" name="slug" />
                     
                     </div>
                     <div class="form-group">
                         <label for="title">Title </label>
-                        <input type="text" class="form-control" name="title" />
+                        <input placeholder="Enter Title" type="text" class="form-control" name="title" />
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
                         <textarea rows="5" class="form-control" name="description" ></textarea>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">
+                            <label for="message">Image of Post</label>
+                            <input type="file" class="form-control" name="img" >
+                        </div>
+                    <label for="message">Category of Post</label>
+                    <select name="category" class="browser-default custom-select mb-4">
+                        @foreach ($category as $c)
+                            <option value="{{$c->id}}">{{$c->name}}</option>
+                        @endforeach
+                    </select> 
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">
                             Create
                         </button>
                     </div>
                 </form>
             </div>
         </div>
+        @jquery
+        @toastr_js
+        @toastr_render
     </div>
 @endsection
+@section('scripts')
+        <script>
+        @if(count($errors) > 0)
+            @foreach($errors->all() as $error)
+                toastr.error("{{ $error }}");
+            @endforeach
+        @endif
+    </script>
+@endsection
+

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  @include("ViewComponents.head")
+  @include("viewcomponents.head")
 <body>
 
-    @include('ViewComponents.navbar')
+    @include('viewcomponents.navbar')
 
       @yield('content')
 
 
       @yield('scripts')
 
-    @include('ViewComponents.scripts')
+    @include('viewcomponents.scripts')
 
     
 

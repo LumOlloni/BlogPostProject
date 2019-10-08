@@ -11,8 +11,8 @@ class Role extends Model
 
     public $timestamps = true;
     
-    public function users()
-    {
-        return $this->belongsToMany('App\User');
-    }
+    // public function users()
+    // {
+    //     return $this->belongsToMany('App\User');
+    // }
 }

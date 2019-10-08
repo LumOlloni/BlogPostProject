@@ -13,7 +13,7 @@ class PostValidation extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,9 +24,10 @@ class PostValidation extends FormRequest
     public function rules()
     {
         return [
-            'slug' => 'required|max:50|unique:slug',
             'title' => 'required|max:20',
-            'body' => 'required|max:150'
+            'description' => 'required|max:150',
+            'slug' => 'required|alpha_dash|min:5|max:255',
+            'img' =>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }

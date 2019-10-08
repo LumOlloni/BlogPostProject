@@ -5,7 +5,7 @@
           <a class="nav-link" href="/home">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{route('posts.index')}}">Create Post</a>
+        <a class="nav-link" href="{{route('posts.create')}}">Create Post</a>
       </li>
       <li class="nav-item">
         <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
