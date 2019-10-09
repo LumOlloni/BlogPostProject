@@ -1,15 +1,7 @@
 @extends('layouts.app')
 
 @section('stylesheet')
-    {{-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> --}}
     <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
-  
-    {{-- <script>
-    tinymce.init(
-    {selector:'textarea',
-     plugins:'link code'
-    });
-    </script> --}}
 @endsection
 
 @section('content')

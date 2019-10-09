@@ -38,12 +38,15 @@ Route::group(['middleware' => ['auth']] , function ()
         Route::get('/admin/home' ,'AdminControllers\AdminController@index' );
         Route::get('/admin/approve' , "AdminControllers\AdminController@approve");
         Route::post('/admin/approvePost/{id}' ,"AdminControllers\AdminController@approvePost" );
+        Route::resource('/admin/category' , "AdminControllers\CategoryController");
+       
     });
 
     Route::group(['middleware' => ['user']], function () {
         Route::get('/home', 'HomeController@index')->name('home');
         Route::resource('posts' , "FrontEndControllers\PostController");
         Route::get('/home/{slug}' , ['as' => 'post.single' , 'uses' => "FrontEndControllers\PostController@getSingle"] )->where('slug' , '[\w\d\-\_]+');
+        
     });
 
 });
