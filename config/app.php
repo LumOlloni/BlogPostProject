@@ -177,7 +177,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        Yoeunes\Toastr\ToastrServiceProvider::class
+        Yoeunes\Toastr\ToastrServiceProvider::class,
+        App\Providers\BladeServiceProvider::class
     ],
 
     /*

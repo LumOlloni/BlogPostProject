@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   @include("viewcomponents.head")
-<body>
+<body class="body-log">
 
     @include('viewcomponents.navbar')
 
@@ -10,9 +10,9 @@
 
       @yield('scripts')
 
-    @include('viewcomponents.scripts')
-
+    @include('viewcomponents.footer')
     
-
+    @include('viewcomponents.scripts')
+    
 </body>
 </html>

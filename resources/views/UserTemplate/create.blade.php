@@ -18,7 +18,7 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea rows="5" class="form-control" name="description" ></textarea>
+                        <textarea id="summernote" rows="5" class="form-control" name="description" ></textarea>
                     </div>
                     <div class="form-group">
                             <label for="message">Image of Post</label>
@@ -43,6 +43,7 @@
         @toastr_js
         @toastr_render
     </div>
+    <br><br><br>
 @endsection
 @section('scripts')
         <script>
@@ -51,6 +52,11 @@
                 toastr.error("{{ $error }}");
             @endforeach
         @endif
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#summernote').summernote();
+        });
     </script>
 @endsection
 

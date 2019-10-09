@@ -21,7 +21,7 @@ class Admin
             return $next($request);
         }
         else {
-            // return new Response(view('unauthorized'));
+        
             return  abort(404);
         }
     }

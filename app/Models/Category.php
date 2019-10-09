@@ -10,4 +10,8 @@ class Category extends Model
     public $primaryKey = 'id';
 
     public $timestamps = true;
+
+    public function post(){
+        return $this->hasMany('App\Post');
+    }
 }
