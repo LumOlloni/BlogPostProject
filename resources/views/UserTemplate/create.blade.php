@@ -1,5 +1,17 @@
 @extends('layouts.app')
 
+@section('stylesheet')
+    {{-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> --}}
+    <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
+  
+    {{-- <script>
+    tinymce.init(
+    {selector:'textarea',
+     plugins:'link code'
+    });
+    </script> --}}
+@endsection
+
 @section('content')
 <div class="container">
         <div class="row">
@@ -18,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea id="summernote" rows="5" class="form-control" name="description" ></textarea>
+                        <textarea id="editor"  rows="5" class="form-control" name="description" ></textarea>
                     </div>
                     <div class="form-group">
                             <label for="message">Image of Post</label>
@@ -46,17 +58,16 @@
     <br><br><br>
 @endsection
 @section('scripts')
-        <script>
+    <script>
+            CKEDITOR.replace( 'description' );
+    </script>
+    <script>
         @if(count($errors) > 0)
             @foreach($errors->all() as $error)
                 toastr.error("{{ $error }}");
             @endforeach
         @endif
     </script>
-    <script>
-        $(document).ready(function() {
-            $('#summernote').summernote();
-        });
-    </script>
+
 @endsection
 

@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   @include("viewcomponents.head")
-<body class="body-log">
 
+  
+<body class="body-log">
+    @yield('stylesheet')
     @include('viewcomponents.navbar')
+
 
       @yield('content')
 

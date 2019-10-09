@@ -8,7 +8,7 @@
           <h1 class="card-title">{{$post->title}}</h1>
           <div class="card-body">
             <img src="/images/{{$post->image}}" alt="">
-            <p class="card-text">{{$post->body}}</p>
+            <p class="card-text">{!! $post->body !!}</p>
             <p class="card-text">Created: {{$post->created_at}}</p>
             <p class="card-text">Category: {{$post->category->name}}</p>
             <small>Written By {{$post->user->name}} </small>
