@@ -3,10 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Auth;
-use Response;
 
-class Admin
+class User
 {
     /**
      * Handle an incoming request.
@@ -17,11 +15,11 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user() && $request->user()->role_id == 2) {
+        if ($request->user() && $request->user()->role_id == 1) {
             return $next($request);
         }
         else {
-            // return new Response(view('unauthorized'));
+           
             return  abort(404);
         }
     }

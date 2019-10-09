@@ -5,10 +5,15 @@
   @include('adminviewcomponents.head')
 </head>
 <body>
-  @yield('admin-content')
-
+ 
+  @if (!Request::is('admin'))
+    @include('adminviewcomponents.navbar')
+  @endif
+    @yield('admin-content')
+ 
+  @include('adminviewcomponents.scripts')
+  
   @yield('scripts')
   
-  @include('adminviewcomponents.scripts')
 </body>
 </html>
