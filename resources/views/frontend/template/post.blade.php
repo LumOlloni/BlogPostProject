@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-    <h2 class="text-center mt-4">All Post of Users</h2>
+    <h2 class="text-center mt-4">@lang('home.post_user')</h2>
     <div class="container mt-4">
         <div class="row no-gutters">
             @if (count($post) > 0)
@@ -14,7 +14,7 @@
                                 <p class="card-text"> {!! $p->limit_text($p->body,20) !!} </p>
                                 <div class="d-flex justify-content-left">
                                     <div class="p-1">
-                                        <a href="/home/{{$p->slug}}" class="btn btn-info styleButton">Shiko Detajet </a>
+                                        <a href="/home/{{$p->slug}}" class="btn btn-info styleButton">@lang('home.read') </a>
                                     </div>
                                 </div>
                             </div>
@@ -24,5 +24,8 @@
             @endif
         </div>
     </div>
+    @jquery
+    @toastr_js
+    @toastr_render
     <br><br>
 @endsection

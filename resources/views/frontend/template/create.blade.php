@@ -8,27 +8,27 @@
 <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2 mx-auto mt-4">
-                <h1 class="text-center">Create post</h1>
+                <h1 class="text-center">@lang('home.create_p')</h1>
             <form action="{{route('posts.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf 
                     <div class="form-group ">
-                        <label for="slug">Slug </label>
+                        <label for="slug">@lang('home.slug') </label>
                         <input placeholder="Enter Slug for Post" type="text" class="form-control" name="slug" />
                     
                     </div>
                     <div class="form-group">
-                        <label for="title">Title </label>
+                        <label for="title">@lang('home.title') </label>
                         <input placeholder="Enter Title" type="text" class="form-control" name="title" />
                     </div>
                     <div class="form-group">
-                        <label for="description">Description</label>
+                        <label for="description">@lang('home.body')</label>
                         <textarea id="editor"  rows="5" class="form-control" name="description" ></textarea>
                     </div>
                     <div class="form-group">
-                            <label for="message">Image of Post</label>
+                            <label for="message">@lang('home.image')</label>
                             <input type="file" class="form-control" name="img" >
                         </div>
-                    <label for="message">Category of Post</label>
+                    <label for="message">@lang('home.category')</label>
                     <select name="category" class="browser-default custom-select mb-4">
                         @foreach ($category as $c)
                             <option value="{{$c->id}}">{{$c->name}}</option>
@@ -37,7 +37,7 @@
                     
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block">
-                            Create
+                                @lang('home.create')
                         </button>
                     </div>
                 </form>

@@ -33,21 +33,23 @@ Auth::routes(['verify' => true]);
 Route::group(['middleware' => ['auth']] , function ()
 {
 
+    Route::get('locale/{locale}' , function($locale){
+        Session::put('locale' , $locale);
+        return redirect()->back();
+    });
+
     Route::group(['middleware' => ['admin']], function () {
 
         Route::get('/admin/home' ,'AdminControllers\AdminController@index' );
         Route::get('/admin/approve' , "AdminControllers\AdminController@approve");
         Route::post('/admin/approvePost/{id}' ,"AdminControllers\AdminController@approvePost" );
-        Route::resource('/admin/category' , "AdminControllers\CategoryController");
-       
+        Route::resource('/admin/category' , "AdminControllers\CategoryController"); 
     });
 
-    Route::group(['middleware' => ['user']], function () {
         Route::get('/home', 'HomeController@index')->name('home');
         Route::resource('posts' , "FrontEndControllers\PostController");
         Route::get('/home/{slug}' , ['as' => 'post.single' , 'uses' => "FrontEndControllers\PostController@getSingle"] )->where('slug' , '[\w\d\-\_]+');
-        
-    });
+        Route::resource('comments' ,"FrontEndControllers\CommentController");
 
 });
 

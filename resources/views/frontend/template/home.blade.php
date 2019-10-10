@@ -1,11 +1,12 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container mt-4">
     <div class="row justify-content-center">
+
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">@lang('home.welcome')</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,10 +15,13 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    @lang('home.login')
                 </div>
             </div>
         </div>
     </div>
 </div>
+    @jquery
+    @toastr_js
+    @toastr_render
 @endsection

@@ -25,6 +25,11 @@ class Post extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+
    public  function limit_text($text, $limit) {
         if (str_word_count($text, 0) > $limit) {
             $words = str_word_count($text, 2);

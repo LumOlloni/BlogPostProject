@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class User
+class Localization
 {
     /**
      * Handle an incoming request.
@@ -15,12 +15,9 @@ class User
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user() && $request->user()->role_id == 1) {
-            return $next($request);
+        if (\Session::has('locale')) {
+            \App::setLocale(\Session::get('locale'));
         }
-        else {
-           
-            return  abort(404);
-        }
+        return $next($request);
     }
 }

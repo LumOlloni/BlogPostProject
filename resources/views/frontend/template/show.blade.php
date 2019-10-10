@@ -3,7 +3,7 @@
 @section('content')
   <div class="container mt-4">
     <div class="row">
-      <div class="col-md-8 col-md-offset-2 text-center ml-5">
+      <div class="col-md-6 col-md-offset-2 text-center ">
         <div class="card" style="margin-left: 180px;">
           <h1 class="card-title">{{$post->title}}</h1>
           <div class="card-body">
@@ -29,6 +29,19 @@
           @endmypost
         </div>
       </div> 
+      <div class="col-md-4 col-md-offset-2">
+        <form action="{{route('comments.store')}}" method="POST">
+          @csrf
+          <div class="form-group">
+              <label for="usr">Comment:</label>
+              <input type="text" name="comment" class="form-control">
+            </div>
+            <input type="hidden" name="post_id" value=" {{$post->id}} ">
+            <div class="form-group">
+              <button type="submit" name="button" class="btn btn-success btn-block">Create Comment</button>
+            </div>
+          </form>
+      </div>
     </div>
   </div>
 <br><br>
