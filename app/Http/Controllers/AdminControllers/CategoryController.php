@@ -17,7 +17,7 @@ class CategoryController extends Controller
     public function index()
     {
         $category = Category::all();
-       return view('admintemplate.category')->with('category', $category);
+       return view('admin.template.category')->with('category', $category);
     }
 
     /**
@@ -27,7 +27,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view("admintemplate.createcategory");
+        return view("admin.template.createcategory");
     }
 
     /**
@@ -68,7 +68,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
 
-        return view('admintemplate.editcategory')->with('category',$category);
+        return view('admin.template.editcategory')->with('category',$category);
     }
 
     /**
@@ -85,7 +85,7 @@ class CategoryController extends Controller
 
        $category->update();
        toastr()->success('Category has succefully updated');
-       return view('admintemplate.editcategory')->with('category' , $category);
+       return view('template.editcategory')->with('category' , $category);
     }
 
     /**
@@ -98,7 +98,7 @@ class CategoryController extends Controller
     {
        $category = Category::find($id);
        $category->delete();
-       toastr()->success('Category has succefully deleted');
+       \toastWarning("Category Deleted");
        return redirect('admin/category');
 
     }

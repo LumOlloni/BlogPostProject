@@ -15,12 +15,12 @@
 Route::group(['middleware' => ['guest']] , function ()
 {
     Route::get('/admin' , function(){
-        return view('admintemplate.login');
+        return view('admin.template.login');
     });
     Route::post('/admin' , "AdminControllers\AdminController@login")->name("loginAdmin");
     
     Route::get('/', function () {
-        return view('usertemplate.index');
+        return view('frontend.template.index');
     });
     Auth::routes();
    

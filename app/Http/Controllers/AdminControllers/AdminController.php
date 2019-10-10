@@ -10,7 +10,7 @@ use App\Post;
 class AdminController extends Controller
 {
     public function index(){
-        return view('admintemplate.index');
+        return view('admin.template.index');
     }
 
    public function login(Request $request){
@@ -20,6 +20,10 @@ class AdminController extends Controller
     if(Auth::attempt($credentials,$request->remember)){
 
        return redirect('/admin/home');
+    }
+    else {
+        \toastWarning("Username or Password are incorrect");
+        return redirect('/admin');
     }
    }
 
@@ -51,7 +55,7 @@ class AdminController extends Controller
    public function approve()
    {
         $post = Post::where('published' , '0')->get();
-        return view('admintemplate.approve')->with('post' , $post);
+        return view('admin.template.approve')->with('post' , $post);
    }
 
   

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('frontend.layouts.app')
 
 @section('stylesheet')
     <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>

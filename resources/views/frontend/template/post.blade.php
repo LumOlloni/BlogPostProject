@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('frontend.layouts.app')
 
 @section('content')
     <h2 class="text-center mt-4">All Post of Users</h2>

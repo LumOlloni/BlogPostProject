@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('admin.layouts.admin')
 
 @section('admin-content')
 <div class="container mt-4">
@@ -68,4 +68,7 @@
         </div>
     </div>
 </div>
+  @jquery
+  @toastr_js
+  @toastr_render
 @endsection

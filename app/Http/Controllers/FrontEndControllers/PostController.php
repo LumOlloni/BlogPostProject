@@ -19,18 +19,18 @@ class PostController extends Controller
     public function index()
     {
         $post = Post::where('published' , '1')->paginate(10);
-        return view('usertemplate.post')->with('post' , $post);
+        return view('frontend.template.post')->with('post' , $post);
     }
 
     public function create(){
         $cat = Category::all();
-        return view('usertemplate.create')->with('category' , $cat);
+        return view('frontend.template.create')->with('category' , $cat);
     }
 
     public function getSingle($slug){
         $post = Post::where('slug' , '=' , $slug)->first();
 
-        return view('usertemplate.show')->withPost($post);
+        return view('frontend.template.show')->withPost($post);
     }
 
     public function store(PostValidation $request){

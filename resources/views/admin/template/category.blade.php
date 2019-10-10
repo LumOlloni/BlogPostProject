@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('admin.layouts.admin')
 
 @section('admin-content')
   <h2 class="text-center text-primary mt-4">Category</h2>
@@ -26,4 +26,7 @@
           </tbody>
     </table>
   </div>
+  @jquery
+  @toastr_js
+  @toastr_render
 @endsection

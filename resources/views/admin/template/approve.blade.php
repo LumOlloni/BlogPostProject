@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('admin.layouts.admin')
 
 @section('admin-content')
 
@@ -19,7 +19,7 @@
         @foreach ($post as $item)
           <tr>
             <td>{{$item->title}}</td>
-            <td>{{$item->body}}</td>
+            <td>{!! $item->body !!}</td>
               <td><button type="button" data-id="{{$item->id}}" value="1" class="btn btnRequest btn-success">Accept</button></td>
               <td><button type="button" data-id="{{$item->id}}" value="2" class="btnRequest btn btn-danger">Reject</button></td>
           </tr>
