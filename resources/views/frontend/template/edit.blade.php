@@ -6,8 +6,9 @@
   <div class="row">
       <div class="col-md-8 col-md-offset-2 mx-auto mt-4">
           <h1 class="text-center">Edit Post</h1>
-      <form action="" method="POST" enctype="multipart/form-data">
-          @csrf 
+      <form action="{{route('posts.update' , $post->id)}}" method="POST" enctype="multipart/form-data">
+          @csrf   
+          {{ method_field('PATCH') }}
               <div class="form-group ">
                   <label for="slug">@lang('home.slug') </label>
                   <input placeholder="Enter Slug for Post" type="text" class="form-control" value="{{$post->slug}}" name="slug" />
@@ -19,11 +20,11 @@
               </div>
               <div class="form-group">
                   <label for="description">@lang('home.body')</label>
-                  <textarea id="editor"  rows="5" class="form-control" name="description" >{{$post->body}}</textarea>
+                  <textarea id="editor"  rows="5" class="form-control" name="description" >{!! $post->body !!}</textarea>
               </div>
               <div class="form-group">
                       <label for="message">@lang('home.image')</label>
-                      <input type="file" value="{{$post->image}}" class="form-control" name="img" >
+                      <input type="file"  class="form-control" name="img" >
                   </div>
               <label for="message">@lang('home.category')</label>
               <select name="category" class="browser-default custom-select mb-4">

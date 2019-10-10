@@ -6,11 +6,13 @@ namespace App\Http\Controllers\FrontEndControllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostValidation;
+use App\Http\Requests\EditPostValidation;
 use App\Category;
 use App\Comment;
 use Intervention\Image\Facades\Image;
 use App\Post;
 use Auth;
+use Storage;
 use File;
 
 
@@ -36,6 +38,53 @@ class PostController extends Controller
         return view('frontend.template.show')->with(['post' => $post , 'comment' => $comment]);
     }
 
+    public function update(EditPostValidation $request ,$id){
+
+        $post = Post::find($id);
+        $post->slug = $request->input('slug'); 
+        $post->title = $request->input('title'); 
+        $post->body = $request->input('description'); 
+        $post->user_id = Auth::id();
+        $post->category_id = $request->category;
+
+        $post->published = 1;
+
+        if ($request->hasFile('img')) {
+
+            $files = $request->file('img');
+           
+           // for save original image
+           $ImageUpload = Image::make($files);
+           $originalPath = public_path('/images/');
+           $ImageUpload->save($originalPath.time().$files->getClientOriginalName());
+            
+           // for save thumnail image
+           $thumbnailPath = public_path('/thumbnail/');
+           $ImageUpload->resize(250,125);
+           $ImageUpload = $ImageUpload->save($thumbnailPath.time().$files->getClientOriginalName());
+
+           //    Remove old image
+           $oldImage = $post->image;
+           $image_path = public_path('/images/' . $oldImage);
+           $image_thumbnail = public_path('/thumbnail/' . $oldImage);
+
+           if(File::exists($image_path) && File::exists($image_thumbnail) ) {
+                File::delete($image_path);
+                File::delete($image_thumbnail);
+             }
+      
+        
+            $post->image = time().$files->getClientOriginalName(); 
+       }
+        $post->update();
+
+        toastr()->success('Post Update Succefully');
+       
+        return redirect()->route("posts.index");
+
+
+    }
+
     public function edit($id){
         $post = Post::find($id);
         $categories = Category::all();
@@ -48,7 +97,7 @@ class PostController extends Controller
         $id = $post->id;
         $oldImage = $post->image;
         $image_path = public_path('/images/' . $oldImage);
-        $image_thumbnail = public_path('/images/' . $oldImage);
+        $image_thumbnail = public_path('/thumbnail/' . $oldImage);
 
         if(File::exists($image_path) && File::exists($image_thumbnail) ) {
             File::delete($image_path);
