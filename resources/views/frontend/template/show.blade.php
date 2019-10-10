@@ -20,12 +20,16 @@
                   Edit
                 </button>
             </div>
-            <div class="p-4 w-50">
-                <button type="button" class="btn btn-danger w-50">
-                  Delete
-                </button>
-              </div>
-          </div>
+            <form action=" {{route('posts.destroy' , $post->id)}} " method="POST">
+              @csrf
+              <div class="p-4 w-50">
+                  <button type="submit" class="btn btn-danger ">
+                    Delete
+                  </button>
+                </div>
+            </div>
+            {{ method_field('DELETE') }}
+          </form>
           @endmypost
         </div>
       </div> 
@@ -36,7 +40,7 @@
               <label for="usr">Comment:</label>
               <input type="text" name="comment" class="form-control">
             </div>
-            <input type="hidden" name="post_id" value=" {{$post->id}} ">
+            <input type="hidden" name="post_id" value="{{$post->id}}">
             <div class="form-group">
               <button type="submit" name="button" class="btn btn-success btn-block">Create Comment</button>
             </div>

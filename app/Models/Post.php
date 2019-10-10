@@ -38,4 +38,15 @@ class Post extends Model
         }
         return $text;
       }
+
+      protected static function boot()
+        {
+            
+        parent::boot();
+
+        static::deleting(function ($post) {
+             $post->comments()->delete();
+        });
+
+}
 }

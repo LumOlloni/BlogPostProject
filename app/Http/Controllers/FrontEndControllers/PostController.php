@@ -11,6 +11,7 @@ use App\Comment;
 use Intervention\Image\Facades\Image;
 use App\Post;
 use Auth;
+use File;
 
 
 
@@ -33,6 +34,23 @@ class PostController extends Controller
         $comment = Comment::where('published' , '1')->get();
 
         return view('frontend.template.show')->with(['post' => $post , 'comment' => $comment]);
+    }
+
+    public function destroy($id){
+        $post = Post::find($id);
+        $id = $post->id;
+        $oldImage = $post->image;
+        $image_path = public_path('/images/' . $oldImage);
+        $image_thumbnail = public_path('/images/' . $oldImage);
+
+        if(File::exists($image_path) && File::exists($image_thumbnail) ) {
+            File::delete($image_path);
+            File::delete($image_thumbnail);
+        }
+
+        $post->delete();
+        toastr()->danger('Post Deleted');
+        return redirect('/posts');
     }
 
 
