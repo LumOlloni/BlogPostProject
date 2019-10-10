@@ -51,11 +51,14 @@ class PostController extends Controller
 
         if ($request->hasFile('img')) {
 
-            $files = $request->file('img');
-           
+           $files = $request->file('img');
            // for save original image
            $ImageUpload = Image::make($files);
-           $originalPath = public_path('/images/');
+           $originalPath = public_path('/images/'); 
+      
+           // Add watermark in image   
+           $ImageUpload->insert(public_path('watermark/watermark.png'), 'bottom-right', 10, 10);
+       
            $ImageUpload->save($originalPath.time().$files->getClientOriginalName());
             
            // for save thumnail image
