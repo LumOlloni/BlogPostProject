@@ -16,9 +16,9 @@
           @mypost(Auth::user(),$post)
           <div class="d-flex justify-content-center">
               <div class="p-4 w-50">
-                <button type="button" class="btn btn-warning w-50">
+                <a href=" {{route('posts.edit' , $post->id)}} " type="submit" class="btn btn-warning w-50">
                   Edit
-                </button>
+                </a>
             </div>
             <form action=" {{route('posts.destroy' , $post->id)}} " method="POST">
               @csrf

@@ -20,10 +20,13 @@
                             </div>
                         </div>
                     </div>
+                 
                 @endforeach
             @endif
         </div>
+        {{ $post->links() }}
     </div>
+    
     @jquery
     @toastr_js
     @toastr_render

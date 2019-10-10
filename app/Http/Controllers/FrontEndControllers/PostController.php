@@ -20,7 +20,7 @@ class PostController extends Controller
     public function index()
     {   
         
-        $post = Post::where('published' , '1')->paginate(10);
+        $post = Post::where('published' , '1')->paginate(5);
         return view('frontend.template.post')->with('post' ,  $post);
     }
 
@@ -34,6 +34,13 @@ class PostController extends Controller
         $comment = Comment::where('published' , '1')->get();
 
         return view('frontend.template.show')->with(['post' => $post , 'comment' => $comment]);
+    }
+
+    public function edit($id){
+        $post = Post::find($id);
+        $categories = Category::all();
+       
+        return view('frontend.template.edit')->withPost($post)->withCategories( $categories);
     }
 
     public function destroy($id){
