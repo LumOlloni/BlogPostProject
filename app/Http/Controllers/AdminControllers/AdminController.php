@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use App\Post;
+use App\Comment;
 
 class AdminController extends Controller
 {
@@ -28,7 +29,6 @@ class AdminController extends Controller
    }
 
    public function approvePost(Request $request,$id){
-
         $post = Post::find($id);
        $udateValue =  $request->updateValue;
         if ($udateValue == 1) {
@@ -57,8 +57,37 @@ class AdminController extends Controller
         $post = Post::where('published' , '0')->get();
         return view('admin.template.approve')->with('post' , $post);
    }
+    public function comments (){
 
-  
+        $comment = Comment::where('published' , '0')->get();
+       
+        return view("admin.template.comment")->with('comment' , $comment);
+    }
+
+    public function approveComment(Request $request,$id){
+
+        $comment = Comment::find($id);
+        $udateValue =  $request->updatecomment;
+        if ($udateValue == 1) {
+            $comment->published =  $udateValue;
+            $comment->save();
+            toastr()->success('Comment has succefully confirmation');
+            return redirect('admin/approveComments');
+        }
+        
+        else if($udateValue == 2){
+
+            $comment->published =  $udateValue;
+            $comment->save();
+            toastr()->warning('Comment rejected');
+            return redirect('admin/approveComments');
+        }
+        else {
+            toastr()->warning('Error 404');
+            return redirect('admin/approveComments');
+        }
+       
+    }
 
 
 }

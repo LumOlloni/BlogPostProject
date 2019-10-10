@@ -15,7 +15,7 @@
         <a class="nav-link" href="/admin/approve">Aprove Post</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Aprove Comment</a>
+        <a class="nav-link" href="/admin/approveComments">Aprove Comment</a>
       </li>
       @if (Request::is('admin/category'))
       <li class="nav-item">

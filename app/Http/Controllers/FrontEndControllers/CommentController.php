@@ -22,6 +22,15 @@ class CommentController extends Controller
         $comment->save();
         \toastSuccess("Comment add Succefully please waint for admin confrimation");
       return redirect()->route('posts.index');
-
     }
+
+    public function destroy($id){
+      $comment = Comment::find($id);
+
+      $comment->delete();
+      \toastSuccess("Comment Deleted");
+      return redirect()->route('posts.index');
+    }
+
+  
 }

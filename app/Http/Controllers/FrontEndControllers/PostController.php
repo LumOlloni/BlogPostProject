@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostValidation;
 use App\Category;
-// Use Image;
+use App\Comment;
 use Intervention\Image\Facades\Image;
 use App\Post;
 use Auth;
@@ -17,9 +17,10 @@ use Auth;
 class PostController extends Controller
 {
     public function index()
-    {
+    {   
+        
         $post = Post::where('published' , '1')->paginate(10);
-        return view('frontend.template.post')->with('post' , $post);
+        return view('frontend.template.post')->with('post' ,  $post);
     }
 
     public function create(){
@@ -29,9 +30,12 @@ class PostController extends Controller
 
     public function getSingle($slug){
         $post = Post::where('slug' , '=' , $slug)->first();
+        $comment = Comment::where('published' , '1')->get();
 
-        return view('frontend.template.show')->withPost($post);
+        return view('frontend.template.show')->with(['post' => $post , 'comment' => $comment]);
     }
+
+
 
     public function store(PostValidation $request){
       

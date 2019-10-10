@@ -35,5 +35,14 @@ class BladeServiceProvider extends ServiceProvider
                return false;
            }
        });
+       
+       Blade::if('myComment' , function($user , $comment){
+            if ($user->id == $comment->user_id) {
+                return true;
+            } 
+            else {
+                return false;
+            }
+       });
     }
 }

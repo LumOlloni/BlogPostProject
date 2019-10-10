@@ -42,7 +42,13 @@ Route::group(['middleware' => ['auth']] , function ()
 
         Route::get('/admin/home' ,'AdminControllers\AdminController@index' );
         Route::get('/admin/approve' , "AdminControllers\AdminController@approve");
+        
+        Route::get('/admin/approveComments' , "AdminControllers\AdminController@comments");
+
+        Route::post('/admin/approveComments/{id}' ,"AdminControllers\AdminController@approveComment" );
+
         Route::post('/admin/approvePost/{id}' ,"AdminControllers\AdminController@approvePost" );
+
         Route::resource('/admin/category' , "AdminControllers\CategoryController"); 
     });
 
