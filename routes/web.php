@@ -17,7 +17,7 @@ Route::group(['middleware' => ['guest']] , function ()
     Route::get('/admin' , function(){
         return view('admin.template.login');
     });
-    Route::post('/admin' , "AdminControllers\AdminController@login")->name("loginAdmin");
+    Route::post('/admin' , "Admin\AdminController@login")->name("loginAdmin");
     
     Route::get('/', function () {
         return view('frontend.template.index');
@@ -40,22 +40,23 @@ Route::group(['middleware' => ['auth']] , function ()
 
     Route::group(['middleware' => ['admin']], function () {
 
-        Route::get('/admin/home' ,'AdminControllers\AdminController@index' );
-        Route::get('/admin/approve' , "AdminControllers\AdminController@approve");
+        Route::get('/admin/home' ,'Admin\AdminController@index' );
+        Route::get('/admin/approve' , "Admin\AdminController@approve");
         
-        Route::get('/admin/approveComments' , "AdminControllers\AdminController@comments");
+        Route::get('/admin/approveComments' , "Admin\AdminController@comments");
 
-        Route::post('/admin/approveComments/{id}' ,"AdminControllers\AdminController@approveComment" );
+        Route::post('/admin/approveComments/{id}' ,"Admin\AdminController@approveComment" );
 
-        Route::post('/admin/approvePost/{id}' ,"AdminControllers\AdminController@approvePost" );
+        Route::post('/admin/approvePost/{id}' ,"Admin\AdminController@approvePost" );
 
-        Route::resource('/admin/category' , "AdminControllers\CategoryController"); 
+        Route::resource('/admin/category' , "Admin\CategoryController"); 
     });
 
         Route::get('/home', 'HomeController@index')->name('home');
-        Route::resource('posts' , "FrontEndControllers\PostController");
-        Route::get('/home/{slug}' , ['as' => 'post.single' , 'uses' => "FrontEndControllers\PostController@getSingle"] )->where('slug' , '[\w\d\-\_]+');
-        Route::resource('comments' ,"FrontEndControllers\CommentController");
+        Route::resource('posts' , "FrontEnd\PostController");
+        Route::get('/home/{slug}' , ['as' => 'post.single' , 'uses' => "FrontEnd\PostController@getSingle"] )->where('slug' , '[\w\d\-\_]+');
+        Route::resource('comments' ,"FrontEnd\CommentController");
+        Route::post('/home/search' , "FrontEnd\PostController@search")->name('search');
 
 });
 

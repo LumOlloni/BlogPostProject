@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\FrontEndControllers;
+namespace App\Http\Controllers\FrontEnd;
 
 
 use App\Http\Controllers\Controller;
@@ -14,6 +14,7 @@ use App\Post;
 use Auth;
 use Storage;
 use File;
+use DB;
 
 
 
@@ -23,7 +24,8 @@ class PostController extends Controller
     {   
         
         $post = Post::where('published' , '1')->paginate(5);
-        return view('frontend.template.post')->with('post' ,  $post);
+        $cat = Category::all();
+        return view('frontend.template.post')->withPost($post)->withCat($cat);
     }
 
     public function create(){
@@ -57,7 +59,7 @@ class PostController extends Controller
            $originalPath = public_path('/images/'); 
       
            // Add watermark in image   
-           $ImageUpload->insert(public_path('watermark/watermark.png'), 'bottom-right', 10, 10);
+        //    $ImageUpload->insert(public_path('watermark/watermark.png'), 'bottom-right', 10, 10);
        
            $ImageUpload->save($originalPath.time().$files->getClientOriginalName());
             
@@ -146,5 +148,41 @@ class PostController extends Controller
          toastr()->success('Post has succefully created please wait admin confirmation');
          
         return redirect()->route("posts.create");
+    }
+
+    public function search(Request $request){
+        
+       $search = $request->search; 
+       $category = $request->category;
+
+    //    $post = Post::where('title' , 'LIKE','%'.$search.'%')
+    //    ->orWhere('created_at' , 'LIKE','%'.$search.'%' )
+    //    ->get();
+
+        if ($search == '') {
+
+            $post = Post::whereHas('category', function ($q) use ($category) {
+                $q->where('categories.id',  $category);
+          })->get();
+           
+
+            return view('frontend.template.search')->withPost($post);
+        }
+        else if ($search != ''){
+
+            $post = Post::where('title' , 'LIKE','%'.$search.'%' )
+               ->whereHas('category', function ($q) use ($category) {
+                $q->where('categories.id',  $category);
+            })->get();
+          
+            return view('frontend.template.search')->withPost($post);
+        }
+        else {
+
+            toastr()->danger('No Post Found');
+            return redirect()->back();
+        }
+
+       
     }
 }
