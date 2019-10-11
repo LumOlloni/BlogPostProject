@@ -15,5 +15,7 @@
       </div>
     </div>
   </div>
-    
+  @jquery
+  @toastr_js
+  @toastr_render
 @endsection

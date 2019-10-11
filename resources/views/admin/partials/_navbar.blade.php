@@ -25,6 +25,9 @@
       <li class="nav-item">
         <a class="nav-link" href="/admin/category">Category</a>
       </li>
+      <li class="nav-item">
+          <a class="nav-link" href="/admin/deleteAll">Delete Reject Comments</a>
+        </li>
       <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
       document.getElementById('logout-form').submit();" >Logout</a>
       <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

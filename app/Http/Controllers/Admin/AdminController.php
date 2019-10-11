@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Jobs\ProcessPodcast;
 use Auth;
 use App\Post;
 use App\User;
+use Carbon\Carbon;
 use App\Comment;
 use Spatie\Activitylog\Contracts\Activity;
 
@@ -34,6 +36,16 @@ class AdminController extends Controller
         return redirect('/admin');
     }
    }
+
+//    public function deleteComment(){
+
+//        $jobs = (new ProcessPodcast() )
+//        ->delay(Carbon::now()->addSeconds(5));
+
+//        \dispatch($jobs);
+//        \toastWarning("Username or Password are incorrect");
+//        return redirect('/admin/home');
+//    }
 
    public function approvePost(Request $request,$id){
         $post = Post::find($id);

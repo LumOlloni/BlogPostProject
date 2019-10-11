@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Jobs\ProcessPodcast;
+use DB;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,7 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+       
     ];
 
     /**
@@ -26,6 +28,16 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+         $schedule->call(function () {
+          
+          DB::table('comments')->where('published', '2')->delete();
+        
+          })->everyMinute();
+
+        //   $schedule->call(new ProcessPodcast)->everyMinute();
+        $schedule->job(new ProcessPodcast, 'ProcessPodcast')->everyMinutes();
+       
+
     }
 
     /**

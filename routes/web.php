@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth']] , function ()
             Route::get('/approve' , "Admin\AdminController@approve");
             
             Route::get('/approveComments' , "Admin\AdminController@comments");
+            Route::get('/deleteAll',"Admin\AdminController@deleteComment");
 
             Route::post('/approveComments/{id}' ,"Admin\AdminController@approveComment" );
 
