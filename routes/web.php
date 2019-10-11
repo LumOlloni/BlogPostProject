@@ -57,6 +57,8 @@ Route::group(['middleware' => ['auth']] , function ()
     // Route prefix home url
      Route::prefix('home')->group(function () {  
         Route::get('/', 'HomeController@index')->name('home');
+        Route::get('/sortDate' , 'HomeController@sortPostDate' )->name('sortDate');
+        Route::get('/sortAdmin' , 'HomeController@sortPostAdmin' )->name('sortAdmin');
         Route::get('/{slug}' , ['as' => 'post.single' , 'uses' => "FrontEnd\PostController@getSingle"] )->where('slug' , '[\w\d\-\_]+');
         Route::post('/search' , "FrontEnd\PostController@search")->name('search');
     });

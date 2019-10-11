@@ -13,6 +13,15 @@
           <a class="dropdown-item" href="locale/al">@lang('home.al')</a>
         </div>
       </li>
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @lang('home.sort')
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{url('/home/sortDate') }} ">@lang('home.sort_data')</a>
+            <a class="dropdown-item" href="{{url('/home/sortAdmin')}} ">@lang('home.sort_admin')</a>
+          </div>
+        </li>
       <li class="nav-item">
           <a class="nav-link" href="{{route('posts.index')}}">@lang('home.post_menu')</a>
         </li>

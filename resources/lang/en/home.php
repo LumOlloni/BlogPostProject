@@ -16,6 +16,9 @@ return [
   'category' => 'Category',
   'en' => 'English' ,
   'al' => 'Albanian',
+  'sort' => 'Sort Post',
+  'sort_data' => 'Sort post by date',
+  'sort_admin' => 'Sort Post by admin',
   'post_user' => 'All Post of User' ,
   'read' => 'Read More',
 ];
