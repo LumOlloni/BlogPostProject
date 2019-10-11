@@ -9,8 +9,8 @@
           @lang('home.choose')
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="locale/en">@lang('home.en')</a>
-          <a class="dropdown-item" href="locale/al">@lang('home.al')</a>
+          <a class="dropdown-item" href="{{url('locale/en')}}">@lang('home.en')</a>
+          <a class="dropdown-item" href="{{url('locale/al')}} ">@lang('home.al')</a>
         </div>
       </li>
       <li class="nav-item dropdown">

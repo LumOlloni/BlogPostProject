@@ -4,8 +4,7 @@
 
 <div class="container mt-4">
   <div class="row no-gutters">
-    @if (isset($postDate)  )
-   
+    @if (isset($postDate))
             @foreach ($postDate as $p)
                 <div class="col-lg-3 col-md-6">
                     <div class="card">
