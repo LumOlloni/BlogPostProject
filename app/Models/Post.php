@@ -30,14 +30,14 @@ class Post extends Model
         return $this->hasMany('App\Comment');
     }
 
-   public  function limit_text($text, $limit) {
-        if (str_word_count($text, 0) > $limit) {
-            $words = str_word_count($text, 2);
-            $pos = array_keys($words);
-            $text = substr($text, 0, $pos[$limit]) . '...';
-        }
-        return $text;
-      }
+//    public  function limit_text($text, $limit) {
+//         if (str_word_count($text, 0) > $limit) {
+//             $words = str_word_count($text, 2);
+//             $pos = array_keys($words);
+//             $text = substr($text, 0, $pos[$limit]) . '...';
+//         }
+//         return $text;
+//       }
 
       protected static function boot()
         {

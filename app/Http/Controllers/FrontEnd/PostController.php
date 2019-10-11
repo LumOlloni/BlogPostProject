@@ -14,6 +14,8 @@ use App\Post;
 use Auth;
 use Storage;
 use File;
+use App\Classes\BodyLimit;
+use App\Classes\ImageService;
 use DB;
 
 
@@ -22,10 +24,10 @@ class PostController extends Controller
 {
     public function index()
     {   
-        
+         $limit = new BodyLimit;
         $post = Post::where('published' , '1')->paginate(5);
         $cat = Category::all();
-        return view('frontend.template.post')->withPost($post)->withCat($cat);
+        return view('frontend.template.post')->withPost($post)->withCat($cat)->withLimit($limit);
     }
 
     public function create(){
@@ -50,37 +52,9 @@ class PostController extends Controller
         $post->category_id = $request->category;
 
         $post->published = 1;
+        $imageUpload = new ImageService;
+        $imageUpload->uploadEditImage('img' , $post , $request);
 
-        if ($request->hasFile('img')) {
-
-           $files = $request->file('img');
-           // for save original image
-           $ImageUpload = Image::make($files);
-           $originalPath = public_path('/images/'); 
-      
-           // Add watermark in image   
-        //    $ImageUpload->insert(public_path('watermark/watermark.png'), 'bottom-right', 10, 10);
-       
-           $ImageUpload->save($originalPath.time().$files->getClientOriginalName());
-            
-           // for save thumnail image
-           $thumbnailPath = public_path('/thumbnail/');
-           $ImageUpload->resize(250,125);
-           $ImageUpload = $ImageUpload->save($thumbnailPath.time().$files->getClientOriginalName());
-
-           //    Remove old image
-           $oldImage = $post->image;
-           $image_path = public_path('/images/' . $oldImage);
-           $image_thumbnail = public_path('/thumbnail/' . $oldImage);
-
-           if(File::exists($image_path) && File::exists($image_thumbnail) ) {
-                File::delete($image_path);
-                File::delete($image_thumbnail);
-             }
-      
-        
-            $post->image = time().$files->getClientOriginalName(); 
-       }
         $post->update();
 
         toastr()->success('Post Update Succefully');
@@ -126,23 +100,8 @@ class PostController extends Controller
         $post->category_id = $request->category;
      
         $post->published = 0;
-
-        if ($request->hasFile('img')) {
-
-             $files = $request->file('img');
-            
-            // for save original image
-            $ImageUpload = Image::make($files);
-            $originalPath = public_path('/images/');
-            $ImageUpload->save($originalPath.time().$files->getClientOriginalName());
-             
-            // for save thumnail image
-            $thumbnailPath = public_path('/thumbnail/');
-            $ImageUpload->resize(250,125);
-            $ImageUpload = $ImageUpload->save($thumbnailPath.time().$files->getClientOriginalName());
-         
-             $post->image = time().$files->getClientOriginalName(); 
-        }
+        $imageUpload = new ImageService;
+        $imageUpload->uploadCreateImage('img',$post,$request);
 
          $post->save();
          toastr()->success('Post has succefully created please wait admin confirmation');
@@ -154,18 +113,11 @@ class PostController extends Controller
         
        $search = $request->search; 
        $category = $request->category;
-
-    //    $post = Post::where('title' , 'LIKE','%'.$search.'%')
-    //    ->orWhere('created_at' , 'LIKE','%'.$search.'%' )
-    //    ->get();
-
         if ($search == '') {
-
             $post = Post::whereHas('category', function ($q) use ($category) {
                 $q->where('categories.id',  $category);
-          })->get();
-           
-
+         })->get();
+        
             return view('frontend.template.search')->withPost($post);
         }
         else if ($search != ''){
@@ -183,6 +135,5 @@ class PostController extends Controller
             return redirect()->back();
         }
 
-       
     }
 }

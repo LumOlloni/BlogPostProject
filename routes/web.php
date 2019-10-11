@@ -39,24 +39,30 @@ Route::group(['middleware' => ['auth']] , function ()
     });
 
     Route::group(['middleware' => ['admin']], function () {
+        // Route Prefix for Admin Url
+        Route::prefix('admin')->group(function () {  
+            Route::get('/home' ,'Admin\AdminController@index' );
+            Route::get('/approve' , "Admin\AdminController@approve");
+            
+            Route::get('/approveComments' , "Admin\AdminController@comments");
 
-        Route::get('/admin/home' ,'Admin\AdminController@index' );
-        Route::get('/admin/approve' , "Admin\AdminController@approve");
-        
-        Route::get('/admin/approveComments' , "Admin\AdminController@comments");
+            Route::post('/approveComments/{id}' ,"Admin\AdminController@approveComment" );
 
-        Route::post('/admin/approveComments/{id}' ,"Admin\AdminController@approveComment" );
+            Route::post('/approvePost/{id}' ,"Admin\AdminController@approvePost" );
 
-        Route::post('/admin/approvePost/{id}' ,"Admin\AdminController@approvePost" );
-
-        Route::resource('/admin/category' , "Admin\CategoryController"); 
+            Route::resource('/category' , "Admin\CategoryController"); 
+        });
     });
 
-        Route::get('/home', 'HomeController@index')->name('home');
+    // Route prefix home url
+     Route::prefix('home')->group(function () {  
+        Route::get('/', 'HomeController@index')->name('home');
+        Route::get('/{slug}' , ['as' => 'post.single' , 'uses' => "FrontEnd\PostController@getSingle"] )->where('slug' , '[\w\d\-\_]+');
+        Route::post('/search' , "FrontEnd\PostController@search")->name('search');
+    });
+    // Route Resource
         Route::resource('posts' , "FrontEnd\PostController");
-        Route::get('/home/{slug}' , ['as' => 'post.single' , 'uses' => "FrontEnd\PostController@getSingle"] )->where('slug' , '[\w\d\-\_]+');
         Route::resource('comments' ,"FrontEnd\CommentController");
-        Route::post('/home/search' , "FrontEnd\PostController@search")->name('search');
 
 });
 
