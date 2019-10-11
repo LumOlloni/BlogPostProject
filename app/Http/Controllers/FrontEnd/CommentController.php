@@ -33,14 +33,23 @@ class CommentController extends Controller
     public function destroy($id){
       $comment = Comment::find($id);
 
-      $comment->delete();
-      activity()
-        ->performedOn( $comment)
-     ->causedBy(Auth::user()->id)
-        ->withProperties(['comment' => 'comment deleted'])
-        ->log('Commented deleted Succefully !');
-      \toastSuccess("Comment Deleted");
+      if ($comment->user_id != Auth::user()->id) {
+       
       return redirect()->route('posts.index');
+      }
+      else {
+        
+        $comment->delete();
+        activity()
+          ->performedOn( $comment)
+       ->causedBy(Auth::user()->id)
+          ->withProperties(['comment' => 'comment deleted'])
+          ->log('Commented deleted Succefully !');
+        \toastSuccess("Comment Deleted");
+        return redirect()->route('posts.index');
+      }
+
+      
     }
 
   

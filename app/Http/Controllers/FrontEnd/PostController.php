@@ -46,29 +46,38 @@ class PostController extends Controller
     public function update(EditPostValidation $request ,$id){
 
         $post = Post::find($id);
-        $post->slug = $request->input('slug'); 
-        $post->title = $request->input('title'); 
-        $post->body = $request->input('description'); 
-        $post->user_id = Auth::id();
-        $post->category_id = $request->category;
-
-        $post->published = 1;
-        $imageUpload = new ImageService;
-        $imageUpload->uploadEditImage('img' , $post , $request);
-
-        $post->update();
-
-        activity()
-            ->performedOn($post)
-            ->causedBy(Auth::user()->id)
-            ->withProperties(['id' => $post->id , 'title' => $post->title , 'body'=>$post->body , 'slug' => $post->slug])
-            ->log('Update post  name '. $post->name .'' );
-
-          
-
-        toastr()->success('Post Update Succefully');
+        if ($post->user_id != Auth::user()->id) {
+            toastr()->warning('You cant edit this post');
        
-        return redirect()->route("posts.index");
+            return redirect()->route("posts.index");
+        }
+        else {
+
+            $post->slug = $request->input('slug'); 
+            $post->title = $request->input('title'); 
+            $post->body = $request->input('description'); 
+            $post->user_id = Auth::id();
+            $post->category_id = $request->category;
+    
+            $post->published = 1;
+            $imageUpload = new ImageService;
+            $imageUpload->uploadEditImage('img' , $post , $request);
+    
+            $post->update();
+    
+            activity()
+                ->performedOn($post)
+                ->causedBy(Auth::user()->id)
+                ->withProperties(['id' => $post->id , 'title' => $post->title , 'body'=>$post->body , 'slug' => $post->slug])
+                ->log('Update post  name '. $post->name .'' );
+    
+              
+    
+            toastr()->success('Post Update Succefully');
+           
+            return redirect()->route("posts.index");
+        }
+        
 
 
     }
@@ -82,25 +91,27 @@ class PostController extends Controller
 
     public function destroy($id){
         $post = Post::find($id);
-        $id = $post->id;
-        $oldImage = $post->image;
-        $image_path = public_path('/images/' . $oldImage);
-        $image_thumbnail = public_path('/thumbnail/' . $oldImage);
+        if ($post->user_id != Auth::user()->id) {
+            toastr()->warning('You cant edit this post');
+       
+            return redirect()->route("posts.index");
+        }else {
 
-        if(File::exists($image_path) && File::exists($image_thumbnail) ) {
-            File::delete($image_path);
-            File::delete($image_thumbnail);
+            $id = $post->id;
+            $imagedelete = new ImageService;
+            $imagedelete->deleteImage($post);
+           
+            $post->delete();
+            activity()
+            ->performedOn($post)
+            ->causedBy(Auth::user()->id)
+            ->withProperties(['deletE' => 'Delete Post'])
+            ->log('Delted post');
+    
+            toastr()->success('Post Deleted');
+            return redirect('/posts');
         }
-
-        $post->delete();
-        activity()
-        ->performedOn($post)
-        ->causedBy(Auth::user()->id)
-        ->withProperties(['deletE' => 'Delete Post'])
-        ->log('Delted post');
-
-        toastr()->danger('Post Deleted');
-        return redirect('/posts');
+       
     }
 
 
