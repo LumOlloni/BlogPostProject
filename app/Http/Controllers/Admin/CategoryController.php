@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Category;
 use App\Http\Requests\CategoryValidation;
-
+use Spatie\Activitylog\Contracts\Activity;
+use Auth;
 class CategoryController extends Controller
 {
     /**
@@ -42,6 +43,11 @@ class CategoryController extends Controller
         $category->name = $request->category;
 
         $category->save();
+        activity()
+        ->performedOn( $category)
+     ->causedBy(Auth::user()->id)
+        ->withProperties(['id' => $category->id , 'name' => $category->name])
+        ->log('Category  created succefully !!');
         toastr()->success('Category has succefully created');
          
         return redirect()->route("category.create");
@@ -84,8 +90,14 @@ class CategoryController extends Controller
        $category->name = $request->category;
 
        $category->update();
+       activity()
+        ->performedOn( $category)
+     ->causedBy(Auth::user()->id)
+        ->withProperties(['id' => $category->id , 'name' => $category->name])
+        ->log('Category  updated succefully !!');
+       
        toastr()->success('Category has succefully updated');
-       return view('template.editcategory')->with('category' , $category);
+       return view('admin.template.editcategory')->with('category' , $category);
     }
 
     /**
@@ -98,6 +110,11 @@ class CategoryController extends Controller
     {
        $category = Category::find($id);
        $category->delete();
+       activity()
+        ->performedOn( $category)
+     ->causedBy(Auth::user()->id)
+        ->withProperties(['category' => 'delete'])
+        ->log('Category deleted succefully !!');
        \toastWarning("Category Deleted");
        return redirect('admin/category');
 

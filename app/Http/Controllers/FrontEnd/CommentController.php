@@ -8,6 +8,7 @@ use App\Post;
 use App\Comment;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateCommentsValidation;
+use Spatie\Activitylog\Contracts\Activity;
 
 class CommentController extends Controller
 {
@@ -20,6 +21,11 @@ class CommentController extends Controller
         $comment->published = 0;
 
         $comment->save();
+        activity()
+        ->performedOn( $comment)
+     ->causedBy(Auth::user()->id)
+        ->withProperties(['id' => $comment->id , 'body' => $comment->body])
+        ->log('Commented Created Succefully !');
         \toastSuccess("Comment add Succefully please waint for admin confrimation");
       return redirect()->route('posts.index');
     }
@@ -28,6 +34,11 @@ class CommentController extends Controller
       $comment = Comment::find($id);
 
       $comment->delete();
+      activity()
+        ->performedOn( $comment)
+     ->causedBy(Auth::user()->id)
+        ->withProperties(['comment' => 'comment deleted'])
+        ->log('Commented deleted Succefully !');
       \toastSuccess("Comment Deleted");
       return redirect()->route('posts.index');
     }

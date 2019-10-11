@@ -15,6 +15,7 @@
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
         "laravel/ui": "^1.0",
+        "spatie/laravel-activitylog": "^3.9",
         "yoeunes/toastr": "^1.2"
     },
     "require-dev": {

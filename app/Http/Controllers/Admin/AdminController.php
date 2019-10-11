@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use App\Post;
+use App\User;
 use App\Comment;
+use Spatie\Activitylog\Contracts\Activity;
 
 class AdminController extends Controller
 {
@@ -15,10 +17,15 @@ class AdminController extends Controller
     }
 
    public function login(Request $request){
-
+    $user = new User;
     $credentials = [ 'email' => $request->email , 'password' => $request->password ];
   
     if(Auth::attempt($credentials,$request->remember)){
+        activity()
+        ->performedOn( $user)
+     ->causedBy(Auth::user()->id)
+        ->withProperties(['logged in' => 'logged in succefully'])
+        ->log('You logged in succefully !!');
 
        return redirect('/admin/home');
     }
@@ -36,6 +43,12 @@ class AdminController extends Controller
 
             toastr()->success('Post has succefully confirmation');
             $post->save();
+            activity()
+            ->performedOn( $post)
+         ->causedBy(Auth::user()->id)
+            ->withProperties(['aprove' => 'aprove post'])
+            ->log('Post Approve Succefully');
+
             return response()->json(['success' => true]);
         }
         else if($udateValue == 2){
@@ -43,6 +56,13 @@ class AdminController extends Controller
 
             toastr()->warning('Post has rejected');
             $post->save();
+
+            activity()
+            ->performedOn( $post)
+         ->causedBy(Auth::user()->id)
+            ->withProperties(['aprove' => 'rejected post'])
+            ->log('Post rejected !!');
+            
             return response()->json(['success' => true]);
         }
         else {
@@ -71,6 +91,12 @@ class AdminController extends Controller
         if ($udateValue == 1) {
             $comment->published =  $udateValue;
             $comment->save();
+            activity()
+            ->performedOn( $comment)
+         ->causedBy(Auth::user()->id)
+            ->withProperties(['comment' => 'comment aprove'])
+            ->log('Comment Aprove !!');
+
             toastr()->success('Comment has succefully confirmation');
             return redirect('admin/approveComments');
         }
@@ -79,6 +105,12 @@ class AdminController extends Controller
 
             $comment->published =  $udateValue;
             $comment->save();
+            activity()
+            ->performedOn( $comment)
+         ->causedBy(Auth::user()->id)
+            ->withProperties(['comment' => 'comment rejected'])
+            ->log('Comment Rejected !!');
+
             toastr()->warning('Comment rejected');
             return redirect('admin/approveComments');
         }

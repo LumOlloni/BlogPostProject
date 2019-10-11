@@ -17,6 +17,7 @@ use File;
 use App\Classes\BodyLimit;
 use App\Classes\ImageService;
 use DB;
+use Spatie\Activitylog\Contracts\Activity;
 
 
 
@@ -57,6 +58,14 @@ class PostController extends Controller
 
         $post->update();
 
+        activity()
+            ->performedOn($post)
+            ->causedBy(Auth::user()->id)
+            ->withProperties(['id' => $post->id , 'title' => $post->title , 'body'=>$post->body , 'slug' => $post->slug])
+            ->log('Update post  name '. $post->name .'' );
+
+          
+
         toastr()->success('Post Update Succefully');
        
         return redirect()->route("posts.index");
@@ -84,6 +93,12 @@ class PostController extends Controller
         }
 
         $post->delete();
+        activity()
+        ->performedOn($post)
+        ->causedBy(Auth::user()->id)
+        ->withProperties(['deletE' => 'Delete Post'])
+        ->log('Delted post');
+
         toastr()->danger('Post Deleted');
         return redirect('/posts');
     }
@@ -104,6 +119,14 @@ class PostController extends Controller
         $imageUpload->uploadCreateImage('img',$post,$request);
 
          $post->save();
+         
+         activity()
+            ->performedOn($post)
+         ->causedBy(Auth::user()->id)
+            ->withProperties(['id' => $post->id , 'title' => $post->title , 'body'=>$post->body , 'slug' => $post->slug])
+            ->log('Created  post');
+
+
          toastr()->success('Post has succefully created please wait admin confirmation');
          
         return redirect()->route("posts.create");
