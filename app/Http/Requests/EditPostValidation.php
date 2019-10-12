@@ -24,6 +24,7 @@ class EditPostValidation extends FormRequest
     public function rules()
     {
         return [
+            
             'title' => 'required|max:20',
             'description' => 'required|max:255',
             'slug' => 'required|alpha_dash|min:5|max:80',

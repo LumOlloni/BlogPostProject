@@ -51,7 +51,7 @@ Route::group(['middleware' => ['auth']] , function ()
 
             Route::post('/approvePost/{id}' ,"Admin\AdminController@approvePost" );
 
-            Route::resource('/category' , "Admin\CategoryController"); 
+            Route::resource('category' , "Admin\CategoryController"); 
         });
     });
 
@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth']] , function ()
         Route::get('/{slug}' , ['as' => 'post.single' , 'uses' => "FrontEnd\PostController@getSingle"] )->where('slug' , '[\w\d\-\_]+');
         Route::post('/search' , "FrontEnd\PostController@search")->name('search');
     });
+
     // Route Resource
         Route::resource('posts' , "FrontEnd\PostController");
         Route::resource('comments' ,"FrontEnd\CommentController");

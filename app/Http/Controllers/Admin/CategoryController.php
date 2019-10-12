@@ -40,14 +40,16 @@ class CategoryController extends Controller
     public function store(CategoryValidation $request)
     {
         $category = new Category;
-        $category->name = $request->category;
-
+        $category->name = $request->input('name');
+      
         $category->save();
+        
         activity()
         ->performedOn( $category)
      ->causedBy(Auth::user()->id)
         ->withProperties(['id' => $category->id , 'name' => $category->name])
         ->log('Category  created succefully !!');
+
         toastr()->success('Category has succefully created');
          
         return redirect()->route("category.create");
