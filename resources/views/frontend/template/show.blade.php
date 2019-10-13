@@ -63,6 +63,19 @@
           @endforeach
       </div>
     </div>
+    @jquery
+    @toastr_js
+    @toastr_render
   </div>
+
 <br><br>
+@endsection
+@section('scripts')
+<script>
+  @if(count($errors) > 0)
+      @foreach($errors->all() as $error)
+          toastr.error("{{ $error }}");
+      @endforeach
+  @endif
+</script>
 @endsection

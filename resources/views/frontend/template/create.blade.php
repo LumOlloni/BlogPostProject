@@ -13,16 +13,16 @@
                 @csrf 
                     <div class="form-group ">
                         <label for="slug">@lang('home.slug') </label>
-                        <input placeholder="Enter Slug for Post" type="text" class="form-control" name="slug" />
+                        <input value=" {{old('slug')}} " placeholder="Enter Slug for Post" type="text" class="form-control" name="slug" />
                     
                     </div>
                     <div class="form-group">
                         <label for="title">@lang('home.title') </label>
-                        <input placeholder="Enter Title" type="text" class="form-control" name="title" />
+                        <input value=" {{old('title')}} " placeholder="Enter Title" type="text" class="form-control" name="title" />
                     </div>
                     <div class="form-group">
                         <label for="description">@lang('home.body')</label>
-                        <textarea id="editor"  rows="5" class="form-control" name="description" ></textarea>
+                        <textarea  id="editor"  rows="5" class="form-control" name="description" > {{old('description')}} </textarea>
                     </div>
                     <div class="form-group">
                             <label for="message">@lang('home.image')</label>

@@ -9,7 +9,7 @@
           @csrf
         <div class="form-group">
           <label>Category</label>
-          <input value="{{old('name')}}" name="name" type="text" class="form-control" placeholder="Enter category">
+          <input value="{{old('category')}}" name="category" type="text" class="form-control" placeholder="Enter category">
         </div>
         <button type="submit" class="btn btn-block btn-primary">Submit</button>
       </form>
@@ -19,4 +19,13 @@
     @toastr_render
     </div>
   <br><br>
+@endsection
+@section('scripts')
+<script>
+  @if(count($errors) > 0)
+      @foreach($errors->all() as $error)
+          toastr.error("{{ $error }}");
+      @endforeach
+  @endif
+</script>
 @endsection

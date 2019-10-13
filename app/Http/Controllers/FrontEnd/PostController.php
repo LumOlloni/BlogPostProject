@@ -147,6 +147,9 @@ class PostController extends Controller
         
        $search = $request->search; 
        $category = $request->category;
+
+      
+      
         if ($search == '') {
             $post = Post::whereHas('category', function ($q) use ($category) {
                 $q->where('categories.id',  $category);
@@ -168,6 +171,6 @@ class PostController extends Controller
             toastr()->danger('No Post Found');
             return redirect()->back();
         }
-
+        
     }
 }

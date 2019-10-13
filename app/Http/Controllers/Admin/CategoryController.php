@@ -40,7 +40,7 @@ class CategoryController extends Controller
     public function store(CategoryValidation $request)
     {
         $category = new Category;
-        $category->name = $request->input('name');
+        $category->name = $request->input('category');
       
         $category->save();
         

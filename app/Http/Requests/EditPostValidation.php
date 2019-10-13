@@ -27,7 +27,7 @@ class EditPostValidation extends FormRequest
             
             'title' => 'required|max:20',
             'description' => 'required|max:255',
-            'slug' => 'required|alpha_dash|min:5|max:80',
+            'slug' => 'alpha_dash|unique:posts|min:5|max:80',
             'img' =>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }

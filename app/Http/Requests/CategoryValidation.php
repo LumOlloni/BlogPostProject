@@ -24,7 +24,7 @@ class CategoryValidation extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'category' => 'required|min:4',
         ];
     }
 }
