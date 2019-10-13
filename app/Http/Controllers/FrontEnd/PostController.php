@@ -71,8 +71,6 @@ class PostController extends Controller
                 ->withProperties(['id' => $post->id , 'title' => $post->title , 'body'=>$post->body , 'slug' => $post->slug])
                 ->log('Update post  name '. $post->name .'' );
     
-              
-    
             toastr()->success('Post Update Succefully');
            
             return redirect()->route("posts.index");

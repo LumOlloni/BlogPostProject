@@ -14,6 +14,7 @@
                   <input placeholder="Enter Slug for Post" type="text" class="form-control" value="{{$post->slug}}" name="slug" />
               
               </div>
+              <input type="hidden" name="id" value=" {{$post->id}} ">
               <div class="form-group">
                   <label for="title">@lang('home.title') </label>
                   <input placeholder="Enter Title" value="{{$post->title}}" type="text" class="form-control" name="title" />
