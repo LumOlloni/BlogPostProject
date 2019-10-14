@@ -13,6 +13,7 @@ use Spatie\Activitylog\Contracts\Activity;
 class CommentController extends Controller
 {
     public function store(CreateCommentsValidation $request){
+      
         $post = Post::findOrFail($request->post_id);
         $comment  = new Comment;
         $comment->user_id = Auth::user()->id;
@@ -36,7 +37,7 @@ class CommentController extends Controller
       if ($comment->user_id != Auth::user()->id) {
        
         return redirect()->route('posts.index');
-        
+
       }
       else {
         
