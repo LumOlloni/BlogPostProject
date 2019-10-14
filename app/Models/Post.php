@@ -3,10 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\TextLimit;
 
 
 class Post extends Model
 {
+
+    use TextLimit;
+
     protected $table = 'posts';
     public $primaryKey = 'id';
 

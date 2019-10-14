@@ -36,7 +36,7 @@
                             <div class="card-body">
                                 <img src="/thumbnail/{{$p->image}}" alt="">
                                 <h5  class="text-muted">{{$p->title}}</h5>
-                                <p class="card-text"> {!! $limit->text($p->body,20) !!} </p>
+                                <p class="card-text"> {!! $p->text($p->body,20) !!} </p>
                                 <div class="d-flex justify-content-left">
                                     <div class="p-1">
                                         <a href="/home/{{$p->slug}}" class="btn btn-info styleButton">@lang('home.read') </a>

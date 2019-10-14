@@ -14,7 +14,6 @@ use App\Post;
 use Auth;
 use Storage;
 use File;
-use App\Classes\BodyLimit;
 use App\Classes\ImageService;
 use DB;
 use Spatie\Activitylog\Contracts\Activity;
@@ -23,12 +22,14 @@ use Spatie\Activitylog\Contracts\Activity;
 
 class PostController extends Controller
 {
+    
+
     public function index()
     {   
-         $limit = new BodyLimit;
+       
         $post = Post::where('published' , '1')->paginate(5);
         $cat = Category::all();
-        return view('frontend.template.post')->withPost($post)->withCat($cat)->withLimit($limit);
+        return view('frontend.template.post')->withPost($post)->withCat($cat);
     }
 
     public function create(){
