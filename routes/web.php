@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth']] , function ()
         
         // Route Prefix for Admin Url
         Route::prefix('admin')->group(function () {  
+            
             Route::get('/home' ,'Admin\AdminController@index' );
             Route::get('/approve' , "Admin\AdminController@approve");
             
