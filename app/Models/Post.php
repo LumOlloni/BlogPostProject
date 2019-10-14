@@ -4,12 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\TextLimit;
+use App\Traits\ImageService;
 
 
 class Post extends Model
 {
 
-    use TextLimit;
+    use TextLimit; use ImageService;
 
     protected $table = 'posts';
     public $primaryKey = 'id';

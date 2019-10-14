@@ -14,7 +14,6 @@ use App\Post;
 use Auth;
 use Storage;
 use File;
-use App\Classes\ImageService;
 use DB;
 use Spatie\Activitylog\Contracts\Activity;
 
@@ -61,8 +60,8 @@ class PostController extends Controller
             $post->category_id = $request->category;
     
             $post->published = 1;
-            $imageUpload = new ImageService;
-            $imageUpload->uploadEditImage('img' , $post , $request);
+         
+            $post->uploadEditImage('img' , $post , $request);
     
             $post->update();
     
@@ -99,14 +98,14 @@ class PostController extends Controller
     public function destroy($id){
         $post = Post::find($id);
         if ($post->user_id != Auth::user()->id) {
-            toastr()->warning('You cant edit this post');
+            toastr()->warning('You cant delete this post this post');
        
             return redirect()->route("posts.index");
         }else {
 
             $id = $post->id;
-            $imagedelete = new ImageService;
-            $imagedelete->deleteImage($post);
+ 
+            $post->deleteImage($post);
            
             $post->delete();
             activity()
@@ -133,8 +132,8 @@ class PostController extends Controller
         $post->category_id = $request->category;
      
         $post->published = 0;
-        $imageUpload = new ImageService;
-        $imageUpload->uploadCreateImage('img',$post,$request);
+
+        $post->uploadCreateImage('img', $post, $request);
 
          $post->save();
          

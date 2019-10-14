@@ -1,14 +1,15 @@
 <?php
+  namespace App\Traits;
+  use App\Post;
+  use App\Http\Requests\PostValidation;
+  use Image;
+  use App\Http\Requests\EditPostValidation;
+  use File;
 
-namespace App\Classes;
 
-use Intervention\Image\Facades\Image;
-use App\Post;
-use App\Http\Requests\EditPostValidation;
-use App\Http\Requests\PostValidation;
-use File;
 
-  class ImageService {
+  trait ImageService {
+
 
     public  function uploadEditImage($file , Post $post , EditPostValidation  $request){
 
