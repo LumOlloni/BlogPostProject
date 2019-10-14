@@ -82,9 +82,17 @@ class PostController extends Controller
     }
 
     public function edit($id){
+
         $post = Post::find($id);
+
         $categories = Category::all();
+
+        if ($post->user_id != Auth::user()->id) {
+            toastr()->warning('You cant edit this post');
        
+            return redirect()->route("posts.index");
+        }
+        
         return view('frontend.template.edit')->withPost($post)->withCategories( $categories);
     }
 
