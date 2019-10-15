@@ -154,7 +154,6 @@ class PostController extends Controller
         
        $search = $request->search; 
        $category = $request->category;
-       
 
         if ($search == '') {
             $post = Post::whereHas('category', function ($q) use ($category) {
