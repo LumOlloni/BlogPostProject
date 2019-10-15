@@ -45,6 +45,7 @@ class AdminController extends Controller
        \dispatch($jobs);
        \toastWarning("Username or Password are incorrect");
        return redirect('/admin/home');
+       
    }
 
    public function approvePost(Request $request,$id){
