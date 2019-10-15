@@ -14,10 +14,10 @@ class CommentController extends Controller
 {
     public function store(CreateCommentsValidation $request){
       
-        $post = Post::findOrFail($request->post_id);
+   
         $comment  = new Comment;
         $comment->user_id = Auth::user()->id;
-        $comment->post_id = $post->id;
+        $comment->post_id = $request->post_id;
         $comment->body = $request->comment;
         $comment->published = 0;
 
