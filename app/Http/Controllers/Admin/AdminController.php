@@ -37,15 +37,15 @@ class AdminController extends Controller
     }
    }
 
-//    public function deleteComment(){
+   public function deleteComment(){
 
-//        $jobs = (new ProcessPodcast() )
-//        ->delay(Carbon::now()->addSeconds(5));
+       $jobs = (new ProcessPodcast() )
+       ->delay(Carbon::now()->addSeconds(5));
 
-//        \dispatch($jobs);
-//        \toastWarning("Username or Password are incorrect");
-//        return redirect('/admin/home');
-//    }
+       \dispatch($jobs);
+       \toastWarning("Username or Password are incorrect");
+       return redirect('/admin/home');
+   }
 
    public function approvePost(Request $request,$id){
         $post = Post::find($id);
