@@ -149,13 +149,13 @@ class PostController extends Controller
         return redirect()->route("posts.create");
     }
 
+    
     public function search(Request $request){
         
        $search = $request->search; 
        $category = $request->category;
 
-      
-      
+
         if ($search == '') {
             $post = Post::whereHas('category', function ($q) use ($category) {
                 $q->where('categories.id',  $category);
