@@ -65,7 +65,7 @@ Route::group(['middleware' => ['auth']] , function ()
         Route::get('/{slug}' , ['as' => 'post.single' , 'uses' => "FrontEnd\PostController@getSingle"] )->where('slug' , '[\w\d\-\_]+');
         Route::post('/search' , "FrontEnd\PostController@search")->name('search');
     });
-
+    
     // Route Resource
         Route::resource('posts' , "FrontEnd\PostController");
         Route::resource('comments' ,"FrontEnd\CommentController");
