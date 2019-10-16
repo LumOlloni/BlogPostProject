@@ -28,11 +28,10 @@
       <li class="nav-item">
           <a class="nav-link" href="/admin/deleteAll">Delete Reject Comments</a>
         </li>
-      <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
-      document.getElementById('logout-form').submit();" >Logout</a>
-      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-          {{ csrf_field() }}
-      </form>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url('/admin/sort')}}">Sort Post</a>
+        </li>
+      <a href="{{ route('logout') }}" class="nav-link">Logout</a>
     </ul>
   </div>
 </nav>

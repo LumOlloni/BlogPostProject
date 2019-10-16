@@ -4,7 +4,7 @@ return [
   'login' => 'You are logged in!',
   'welcome' => 'Welcome te Website',
   'home_menu' => 'Home' ,
-  'post_menu' => 'Post' ,
+  'post_menu' => 'Posts' ,
   'create_p' => 'Create Post' ,
   'logout' => 'Logout',
   'choose' => 'Choose Language',

@@ -45,23 +45,28 @@ Route::group(['middleware' => ['auth']] , function ()
             
             Route::get('/home' ,'Admin\AdminController@index' );
             Route::get('/approve' , "Admin\AdminController@approve");
-            
             Route::get('/approveComments' , "Admin\AdminController@comments");
             Route::get('/deleteAll',"Admin\AdminController@deleteComment");
+            Route::get('/sort' , "Admin\AdminController@sort" );
+
 
             Route::post('/approveComments/{id}' ,"Admin\AdminController@approveComment" );
 
             Route::post('/approvePost/{id}' ,"Admin\AdminController@approvePost" );
+            Route::post('/updatePost' ,"Admin\AdminController@updateOrder");
 
             Route::resource('category' , "Admin\CategoryController"); 
         });
     });
 
+    // Logout Route
+    Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
+
     // Route prefix home url
      Route::prefix('home')->group(function () {  
         Route::get('/', 'HomeController@index')->name('home');
         Route::get('/sortDate' , 'HomeController@sortPostDate' )->name('sortDate');
-        Route::get('/sortAdmin' , 'HomeController@sortPostAdmin' )->name('sortAdmin');
+        Route::get('/sortAdmin' , 'FrontEnd\PostController@sortPostAdmin' )->name('sortAdmin');
         Route::get('/{slug}' , ['as' => 'post.single' , 'uses' => "FrontEnd\PostController@getSingle"] )->where('slug' , '[\w\d\-\_]+');
         Route::post('/search' , "FrontEnd\PostController@search")->name('search');
     });

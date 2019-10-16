@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\FrontEnd;
 
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostValidation;
@@ -22,22 +21,31 @@ use Spatie\Activitylog\Contracts\Activity;
 class PostController extends Controller
 {
     
-
     public function index()
     {   
        
         $post = Post::where('published' , '1')->paginate(5);
         $cat = Category::all();
+
+        return view('frontend.template.post')->withPost($post)->withCat($cat);
+    }
+
+    public function sortPostAdmin(){
+        $cat = Category::all();
+        $post = Post::orderBy('order','ASC')->paginate(5);
         return view('frontend.template.post')->withPost($post)->withCat($cat);
     }
 
     public function create(){
+        
         $cat = Category::all();
+
         return view('frontend.template.create')->with('category' , $cat);
     }
 
     public function getSingle($slug){
         $post = Post::where('slug' , '=' , $slug)->first();
+
         $comment = Comment::where('published' , '1')->get();
 
         return view('frontend.template.show')->with(['post' => $post , 'comment' => $comment]);
@@ -75,8 +83,6 @@ class PostController extends Controller
            
             return redirect()->route("posts.index");
         }
-        
-
 
     }
 
@@ -92,7 +98,9 @@ class PostController extends Controller
             return redirect()->route("posts.index");
         }
         
-        return view('frontend.template.edit')->withPost($post)->withCategories( $categories);
+        return view('frontend.template.edit')
+            ->withPost($post)
+            ->withCategories( $categories);
     }
 
     public function destroy($id){
@@ -115,23 +123,25 @@ class PostController extends Controller
             ->log('Delted post');
     
             toastr()->success('Post Deleted');
+
             return redirect('/posts');
         }
        
     }
 
-
-
     public function store(PostValidation $request){
+
+        $max = Post::max('order');
       
+
         $post = new Post;
         $post->slug = $request->input('slug'); 
         $post->title = $request->input('title'); 
         $post->body = $request->input('description'); 
         $post->user_id = Auth::id();
         $post->category_id = $request->category;
-     
         $post->published = 0;
+        $post->order = $max+1;
 
         $post->uploadCreateImage('img', $post, $request);
 
@@ -139,12 +149,12 @@ class PostController extends Controller
          
          activity()
             ->performedOn($post)
-         ->causedBy(Auth::user()->id)
+            ->causedBy(Auth::user()->id)
             ->withProperties(['id' => $post->id , 'title' => $post->title , 'body'=>$post->body , 'slug' => $post->slug])
             ->log('Created  post');
 
 
-         toastr()->success('Post has succefully created please wait admin confirmation');
+        toastr()->success('Post has succefully created please wait admin confirmation');
          
         return redirect()->route("posts.create");
     }
@@ -155,27 +165,20 @@ class PostController extends Controller
        $search = $request->search; 
        $category = $request->category;
 
-        if ($search == '') {
-            $post = Post::whereHas('category', function ($q) use ($category) {
-                $q->where('categories.id',  $category);
-         })->get();
+       $post = Post::when($search, function($q) use ($search){
+            $q->where('title', 'LIKE', '%'.$search.'%');
+            $q->orWhere('created_at', 'LIKE', '%'.$search.'%');
+        })->whereHas('category', function ($q) use ($category) {
+            $q->where('id',  $category);
+        })->get();
         
+        if($post->count() > 0) {
             return view('frontend.template.search')->withPost($post);
         }
-        else if ($search != ''){
 
-            $post = Post::where('title' , 'LIKE','%'.$search.'%' )
-               ->whereHas('category', function ($q) use ($category) {
-                $q->where('categories.id',  $category);
-            })->get();
-          
-            return view('frontend.template.search')->withPost($post);
-        }
-        else {
+        \toastr()->warning('No Post Found');
 
-            toastr()->danger('No Post Found');
-            return redirect()->back();
-        }
+        return redirect()->back();
         
     }
 }

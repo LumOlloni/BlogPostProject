@@ -30,12 +30,9 @@ class HomeController extends Controller
     }
 
     public function sortPostDate(){
-        $limit = new BodyLimit;
+     
         $postDate = Post::orderBy('created_at', 'ASC')->get();
-        return view('frontend.template.sortPost')->withPostDate($postDate)->withLimit($limit);
+        return view('frontend.template.sortPost')->withPostDate($postDate);
     }
-    public function sortPostAdmin(){
-        $postAdmin = Post::orderBy(DB::raw('RAND()'))->take(4)->get();
-        return view('frontend.template.sortPost')->withPostAdmin($postAdmin);
-    }
+   
 }

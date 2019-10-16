@@ -10,7 +10,7 @@ use App\Traits\ImageService;
 class Post extends Model
 {
 
-    use TextLimit; use ImageService;
+    use TextLimit, ImageService;
 
     protected $table = 'posts';
     public $primaryKey = 'id';
@@ -18,7 +18,7 @@ class Post extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'title', 'body', 'slug' , 'user_id', 'image' ,'published' ,'category_id'
+        'title', 'body', 'slug' , 'user_id', 'image', 'order' ,'published' ,'category_id'
     ];
 
     public function category(){

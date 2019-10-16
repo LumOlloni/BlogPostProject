@@ -14,4 +14,14 @@ class Category extends Model
     public function post(){
         return $this->hasMany('App\Post');
     }
+
+    protected static function boot()
+    {     
+        parent::boot();
+
+        static::deleting(function ($category) {
+            $category->post()->delete();
+        });
+
+    }
 }

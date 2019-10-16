@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 
 use DB;
 
-class ProcessPodcast implements ShouldQueue
+class DeleteComment implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 

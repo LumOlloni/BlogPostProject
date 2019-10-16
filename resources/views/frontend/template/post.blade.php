@@ -2,12 +2,13 @@
 
 @section('content')
     <h2 class="text-center mt-4">@lang('home.post_user')</h2>
+    <p>&nbsp;</p>
     <section class="search-sec">
         <div class="container">
            <form action="{{route('search')}}" method="POST" >
                 @csrf
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-md-9">
                         <div class="row">   
                             <div class="col-lg-3 col-md-3 col-sm-12 p-0">
                                 <input name="search" type="text" class="form-control search-slt" placeholder="Enter Post">
@@ -23,6 +24,14 @@
                                 <button type="submit"   class="btn btn-success wrn-btn">Search</button>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                        @if (Request::is('posts'))
+                            <a href=" {{route('sortAdmin')}} " class="btn btn-warning wrn-btn">Sort Post By Admin</a>
+                            @else 
+                                <a href=" {{url('/posts')}} " class="btn btn-warning wrn-btn">Sort By Date</a>
+                        @endif
+                       
                     </div>
                 </div>
             </form>

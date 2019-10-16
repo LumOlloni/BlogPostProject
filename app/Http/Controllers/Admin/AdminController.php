@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Jobs\ProcessPodcast;
+use App\Jobs\DeleteComment;
 use Auth;
 use App\Post;
 use App\User;
@@ -38,41 +38,45 @@ class AdminController extends Controller
    }
 
    public function deleteComment(){
-
-       $jobs = (new ProcessPodcast() )
+        
+       $jobs = (new DeleteComment() )
        ->delay(Carbon::now()->addSeconds(5));
 
        \dispatch($jobs);
-       \toastWarning("Username or Password are incorrect");
+       \toastWarning("Comments deleted");
+
        return redirect('/admin/home');
        
    }
 
    public function approvePost(Request $request,$id){
+
         $post = Post::find($id);
-       $udateValue =  $request->updateValue;
-        if ($udateValue == 1) {
-            $post->published =  $udateValue;
+       $updateValue =  $request->updateValue;
+        if ($updateValue == 1) {
+            $post->published =  $updateValue;
 
             toastr()->success('Post has succefully confirmation');
+
             $post->save();
+
             activity()
             ->performedOn( $post)
-         ->causedBy(Auth::user()->id)
+            ->causedBy(Auth::user()->id)
             ->withProperties(['aprove' => 'aprove post'])
             ->log('Post Approve Succefully');
 
             return response()->json(['success' => true]);
         }
-        else if($udateValue == 2){
-            $post->published =  $udateValue;
+        else if($updateValue == 2){
+            $post->published =  $updateValue;
 
             toastr()->warning('Post has rejected');
             $post->save();
 
             activity()
             ->performedOn( $post)
-         ->causedBy(Auth::user()->id)
+            ->causedBy(Auth::user()->id)
             ->withProperties(['aprove' => 'rejected post'])
             ->log('Post rejected !!');
             
@@ -80,6 +84,7 @@ class AdminController extends Controller
         }
         else {
             toastr()->danger('Error request');
+
             return response()->json(['error' => true]);
         }
       
@@ -97,6 +102,29 @@ class AdminController extends Controller
         return view("admin.template.comment")->with('comment' , $comment);
     }
 
+    public function sort(){
+        $post = Post::orderBy('order','ASC')->get();
+        return view("admin.template.sort")->with('post' , $post);
+    }
+
+    public function updateOrder(Request $request){
+        $post = Post::all();
+
+        foreach ($post as $p ) {
+            $p->timestamps = false;
+            $id = $p->id;
+
+            foreach ($request->order as $order) {
+                
+                if ($order['id'] == $id) {
+                    $p->update(['order' => $order['position']]);
+                }
+            }
+        }
+        return response('Update Successfully.', 200);
+    }
+
+
     public function approveComment(Request $request,$id){
 
         $comment = Comment::find($id);
@@ -111,6 +139,7 @@ class AdminController extends Controller
             ->log('Comment Aprove !!');
 
             toastr()->success('Comment has succefully confirmation');
+            
             return redirect('admin/approveComments');
         }
         
@@ -120,15 +149,18 @@ class AdminController extends Controller
             $comment->save();
             activity()
             ->performedOn( $comment)
-         ->causedBy(Auth::user()->id)
+            ->causedBy(Auth::user()->id)
             ->withProperties(['comment' => 'comment rejected'])
             ->log('Comment Rejected !!');
 
             toastr()->warning('Comment rejected');
+
             return redirect('admin/approveComments');
         }
         else {
+
             toastr()->warning('Error 404');
+
             return redirect('admin/approveComments');
         }
        

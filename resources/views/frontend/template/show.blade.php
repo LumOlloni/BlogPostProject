@@ -46,20 +46,19 @@
             </div>
           </form>
           @foreach ($comment as $item)
-          @if ($item->post_id == $post->id)
-          <div class="card">
-             <div class="card-body"> Body: {{$item->body}} </div>
-             <small class="card-text">Written by:{{$item->user->name}} </small>
-             @myComment(Auth::user() , $item)
-              <form action="{{route('comments.destroy' , $item->id)}}" method="POST">
-                @csrf
-                <p class="card-text text-center"><button type="submit" class="btn btn-danger"> Delete Comment</button></p> 
-                {{ method_field('DELETE') }}
-              </form>
-             @endmyComment
-          </div>
-    
-          @endif
+            @if ($item->post_id == $post->id)
+              <div class="card">
+                <div class="card-body"> Body: {{$item->body}} </div>
+                <small class="card-text">Written by:{{$item->user->name}} </small>
+                @myComment(Auth::user() , $item)
+                  <form action="{{route('comments.destroy' , $item->id)}}" method="POST">
+                    @csrf
+                    <p class="card-text text-center"><button type="submit" class="btn btn-danger"> Delete Comment</button></p> 
+                    {{ method_field('DELETE') }}
+                  </form>
+                @endmyComment
+              </div>
+            @endif
           @endforeach
       </div>
     </div>
