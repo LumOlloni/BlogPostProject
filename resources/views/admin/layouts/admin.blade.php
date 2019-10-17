@@ -3,8 +3,11 @@
 <head>
 
   @include('admin.partials._head')
+ 
 </head>
+
 <body>
+    @yield('style')
  
   @if (!Request::is('admin'))
     @include('admin.partials._navbar')

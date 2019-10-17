@@ -178,7 +178,11 @@ return [
         App\Providers\RouteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Yoeunes\Toastr\ToastrServiceProvider::class,
-        App\Providers\BladeServiceProvider::class
+        App\Providers\BladeServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
+
+        // Yajra\DataTables\DataTablesServiceProvider::class,
+        // Yajra\DataTables\ButtonsServiceProvider::class,
     ],
 
     /*
@@ -229,7 +233,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class
 
     ],
 

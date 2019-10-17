@@ -40,9 +40,11 @@ class AdminController extends Controller
    public function deleteComment(){
         
        $jobs = (new DeleteComment() )
+
        ->delay(Carbon::now()->addSeconds(5));
 
-       \dispatch($jobs);
+       dispatch($jobs);
+
        \toastWarning("Comments deleted");
 
        return redirect('/admin/home');

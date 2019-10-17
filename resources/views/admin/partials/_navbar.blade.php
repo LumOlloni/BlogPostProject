@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark indigo">
-  <a class="navbar-brand" href="/admin/home">Admin</a>
+  <a style="cursor:pointer;" id="menu-toggle" class="navbar-brand text-white">Admin</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
     aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -11,26 +11,11 @@
           <span class="sr-only">(current)</span>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/approve">Aprove Post</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/approveComments">Aprove Comment</a>
-      </li>
-      @if (Request::is('admin/category'))
+      {{-- @if (Request::is('admin/category'))
       <li class="nav-item">
           <a class="nav-link" href="/admin/category/create">Add Category</a>
         </li>
-      @endif
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/category">Category</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="/admin/deleteAll">Delete Reject Comments</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{url('/admin/sort')}}">Sort Post</a>
-        </li>
+      @endif --}}
       <a href="{{ route('logout') }}" class="nav-link">Logout</a>
     </ul>
   </div>

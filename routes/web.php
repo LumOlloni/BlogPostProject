@@ -42,20 +42,23 @@ Route::group(['middleware' => ['auth']] , function ()
         
         // Route Prefix for Admin Url
         Route::prefix('admin')->group(function () {  
-            
+            // Get Route
             Route::get('/home' ,'Admin\AdminController@index' );
             Route::get('/approve' , "Admin\AdminController@approve");
             Route::get('/approveComments' , "Admin\AdminController@comments");
             Route::get('/deleteAll',"Admin\AdminController@deleteComment");
             Route::get('/sort' , "Admin\AdminController@sort" );
-
+            Route::get('user' , "Admin\UserController@anyData" )->name('get.users');
+            Route::get('users/{id}/show' , 'Admin\UserController@show');
 
             Route::post('/approveComments/{id}' ,"Admin\AdminController@approveComment" );
-
             Route::post('/approvePost/{id}' ,"Admin\AdminController@approvePost" );
             Route::post('/updatePost' ,"Admin\AdminController@updateOrder");
 
             Route::resource('category' , "Admin\CategoryController"); 
+            Route::resource('users' , "Admin\UserController");
+
+           
         });
     });
 
