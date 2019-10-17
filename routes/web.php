@@ -50,11 +50,13 @@ Route::group(['middleware' => ['auth']] , function ()
             Route::get('/sort' , "Admin\AdminController@sort" );
             Route::get('user' , "Admin\UserController@anyData" )->name('get.users');
             Route::get('users/{id}/show' , 'Admin\UserController@show');
+            Route::get('category/{id}/show' , 'Admin\CategoryController@show');
 
             Route::post('/approveComments/{id}' ,"Admin\AdminController@approveComment" );
             Route::post('/approvePost/{id}' ,"Admin\AdminController@approvePost" );
             Route::post('/updatePost' ,"Admin\AdminController@updateOrder");
             Route::delete('/users/delete/{id}', 'Admin\UserController@destroy');
+            Route::delete('/category/delete/{id}', 'Admin\CategoryController@destroy');
             Route::resource('category' , "Admin\CategoryController"); 
             Route::resource('users' , "Admin\UserController");
 

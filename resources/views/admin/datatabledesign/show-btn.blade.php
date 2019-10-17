@@ -1,1 +1,0 @@
-<button class="btn btn-sm btn-warning" type="submit">Show</button>

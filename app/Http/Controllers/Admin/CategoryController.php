@@ -8,6 +8,7 @@ use App\Category;
 use App\Http\Requests\CategoryValidation;
 use Spatie\Activitylog\Contracts\Activity;
 use Auth;
+use Response;
 class CategoryController extends Controller
 {
     /**
@@ -17,8 +18,15 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::all();
-       return view('admin.template.category')->with('category', $category);
+        if(request()->ajax()) {
+            $category = Category::select('*');
+            return datatables()->of($category)
+            ->addColumn('action', 'admin.datatabledesign.category-button')
+            ->rawColumns(['action'])
+            ->addIndexColumn()
+            ->make(true);
+        }
+       return view('admin.template.category');
     }
 
     /**
@@ -52,7 +60,7 @@ class CategoryController extends Controller
 
         toastr()->success('Category has succefully created');
          
-        return redirect()->route("category.create");
+        return redirect()->route("category.index");
     }
 
     /**
@@ -63,7 +71,9 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category_id = array('id' => $id);
+        $category  = Category::where($category_id)->first();
+        return view('admin.template.showCategory')->with('category' , $category);
     }
 
     /**
@@ -74,7 +84,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::find($id);
+        $category = Category::find( $id);
 
         return view('admin.template.editcategory')->with('category',$category);
     }
@@ -92,6 +102,7 @@ class CategoryController extends Controller
        $category->name = $request->category;
 
        $category->update();
+
        activity()
         ->performedOn( $category)
      ->causedBy(Auth::user()->id)
@@ -99,7 +110,7 @@ class CategoryController extends Controller
         ->log('Category  updated succefully !!');
        
        toastr()->success('Category has succefully updated');
-       return view('admin.template.editcategory')->with('category' , $category);
+       return view('admin.template.category')->with('category' , $category);
     }
 
     /**
@@ -110,14 +121,17 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-       $category = Category::find($id);
-       $category->delete();
+        $category = Category::where('id',$id)->delete();
+ 
+        return Response::json($category);
+
        activity()
         ->performedOn( $category)
      ->causedBy(Auth::user()->id)
         ->withProperties(['category' => 'delete'])
         ->log('Category deleted succefully !!');
        \toastWarning("Category Deleted");
+
        return redirect('admin/category');
 
     }
