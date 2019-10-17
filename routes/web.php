@@ -54,7 +54,7 @@ Route::group(['middleware' => ['auth']] , function ()
             Route::post('/approveComments/{id}' ,"Admin\AdminController@approveComment" );
             Route::post('/approvePost/{id}' ,"Admin\AdminController@approvePost" );
             Route::post('/updatePost' ,"Admin\AdminController@updateOrder");
-
+            Route::delete('/users/delete/{id}', 'Admin\UserController@destroy');
             Route::resource('category' , "Admin\CategoryController"); 
             Route::resource('users' , "Admin\UserController");
 

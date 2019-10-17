@@ -30,38 +30,27 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="ajax-crud-modal" aria-hidden="true">
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="userCrudModal"></h4>
-            </div>
-            <div class="modal-body">
-                <form id="userForm" name="userForm" class="form-horizontal">
-                   <input type="hidden" name="user_id" id="user_id">
-                    <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">Name</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="" maxlength="50" required="">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Email</label>
-                        <div class="col-sm-12">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" value="" required="">
-                        </div>
-                    </div>
-                    <div class="col-sm-offset-2 col-sm-10">
-                     <button type="submit" class="btn btn-primary" id="btn-save" value="create">Save changes
-                     </button>
-                    </div>
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                        DELETE CONFIRMATION
+                </div>
+                <form action=""  id="deleteForm" method="post">
+                <div class="modal-body">
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
+                    <p class="text-center">Are You Sure Want To Delete ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                    <a  data-dismiss="modal" class="btn btn-danger  btn-ok">Delete</a>
+                </div>
                 </form>
-            </div>
-            <div class="modal-footer">      
             </div>
         </div>
     </div>
-</div>
 
 @endsection
 @section('scripts')
@@ -74,8 +63,9 @@
 
     <script>
         var SITEURL = '{{URL::to('')}}';
-        // console.log(SITEURL);
+       
         $(document).ready( function () {
+            
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -98,15 +88,20 @@
         order: [[0, 'desc']]
       });
 
- 
-    $('body').on('click', '#delete-user', function () {
- 
+      $('body').on('click' , '#delete-user' , function () {
         var user_id = $(this).data("id");
-        confirm("Are You sure want to delete !");
+            localStorage.setItem('idDElete', user_id);
+          $('#confirm-delete').modal('show');
+      })
+
  
+    $('body').on('click', '#deleteForm', function () {
+        var user_id = localStorage.getItem('idDElete');         
         $.ajax({
-            type: "POST",
-            url: SITEURL + "/admin/users/destroy/"+user_id,
+            type: "delete",
+            dataType:"json",
+
+            url: SITEURL + "/admin/users/delete/"+user_id,
             success: function (data) {
             var oTable = $('#laravel_datatable').dataTable(); 
             oTable.fnDraw(false);

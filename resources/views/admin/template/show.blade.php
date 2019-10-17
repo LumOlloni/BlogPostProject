@@ -16,7 +16,7 @@
     <input type="text" id="defaultContactFormEmail" class="form-control mb-4" value="{{$user->email}}">
      <label class="float-left" for="name">Member Since</label>
      <input type="text" id="defaultContactFormEmail" class="form-control mb-4" value="{{$user->created_at}}">
-    <a href="#" class="btn btn-danger btn-block " type="submit">Close</a>
+     <a href="{{url('admin/users')}}" class="btn btn-danger mx-auto" type="submit">Close</a>
 </form>
     </div>
   </div>
