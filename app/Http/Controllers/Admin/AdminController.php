@@ -199,6 +199,7 @@ class AdminController extends Controller
     public function delete($id){
 
         $post = Post::where('id',$id)->first();
+        $post->deleteImage($post);
         $post->delete();
 
  
