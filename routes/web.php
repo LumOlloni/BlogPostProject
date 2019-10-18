@@ -37,7 +37,7 @@ Route::group(['middleware' => ['auth']] , function ()
         Session::put('locale' , $locale);
         return redirect()->back();
     });
-
+   
     Route::group(['middleware' => ['admin']], function () {
         
         // Route Prefix for Admin Url
@@ -51,6 +51,8 @@ Route::group(['middleware' => ['auth']] , function ()
             Route::get('user' , "Admin\UserController@anyData" )->name('get.users');
             Route::get('users/{id}/show' , 'Admin\UserController@show');
             Route::get('category/{id}/show' , 'Admin\CategoryController@show');
+            Route::get('comment/{id}/show' , 'Admin\AdminController@showComment');
+
 
             Route::post('/approveComments/{id}' ,"Admin\AdminController@approveComment" );
             Route::post('/approvePost/{id}' ,"Admin\AdminController@approvePost" );

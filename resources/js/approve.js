@@ -12,13 +12,13 @@ if (document.querySelectorAll('.btnRequest')) {
 
             e.preventDefault();
 
-            axios.post(`/admin/approvePost/${id}`, {
+            axios.post(`/admin/approveComment/${id}`, {
                     updateValue: this.value,
                 })
                 .then(data => {
                     console.log(data);
 
-                    window.location.href = "http://localhost:8000/admin/approve"
+                    window.location.href = "http://localhost:8000/admin/approveComments"
                 })
                 .catch(err => {
                     console.log(err);

@@ -92,6 +92,13 @@ class AdminController extends Controller
       
     }
 
+   public function  showComment($id){
+
+        $comment_id = array('id' => $id);
+        $comment  = Comment::where($comment_id)->first();
+        return view('admin.template.showcomment')->with('comment' , $comment);
+   }
+
    public function approve()
    {
         $post = Post::where('published' , '0')->get();
@@ -128,9 +135,10 @@ class AdminController extends Controller
 
 
     public function approveComment(Request $request,$id){
-
+      
         $comment = Comment::find($id);
-        $udateValue =  $request->updatecomment;
+        if(request()->ajax()) {
+        $udateValue =  $request->input('btn');
         if ($udateValue == 1) {
             $comment->published =  $udateValue;
             $comment->save();
@@ -142,7 +150,7 @@ class AdminController extends Controller
 
             toastr()->success('Comment has succefully confirmation');
             
-            return redirect('admin/approveComments');
+            return response()->json(['success' => true]);
         }
         
         else if($udateValue == 2){
@@ -157,14 +165,15 @@ class AdminController extends Controller
 
             toastr()->warning('Comment rejected');
 
-            return redirect('admin/approveComments');
+            return response()->json(['success' => true]);
         }
         else {
 
             toastr()->warning('Error 404');
 
-            return redirect('admin/approveComments');
+            return response()->json(['error' => true]);
         }
+    }
        
     }
 

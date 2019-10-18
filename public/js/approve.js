@@ -2065,11 +2065,11 @@ if (document.querySelectorAll('.btnRequest')) {
     element.addEventListener('click', function (e) {
       var id = element.getAttribute('data-id');
       e.preventDefault();
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/admin/approvePost/".concat(id), {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/admin/approveComment/".concat(id), {
         updateValue: this.value
       }).then(function (data) {
         console.log(data);
-        window.location.href = "http://localhost:8000/admin/approve";
+        window.location.href = "http://localhost:8000/admin/approveComments";
       })["catch"](function (err) {
         console.log(err);
       });
