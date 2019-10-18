@@ -10,6 +10,9 @@
     <div class="d-flex" id="wrapper">
         @include('admin.partials._sidenav')
         <div class="container mt-4">
+                <a style="width:150px;" href="javascript:void(0);" id="create-category" data-toggle="tooltip" data-original-title="Delete" class=" float-right delete btn btn-success mb-2 ">
+                        Create
+                    </a>
             <table class="table table-bordered table-striped" id="laravel_datatable">
                 <thead>
                     <tr>

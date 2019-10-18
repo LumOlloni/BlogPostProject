@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth']] , function ()
         Route::prefix('admin')->group(function () {  
             // Get Route
             Route::get('/home' ,'Admin\AdminController@index' );
-            Route::get('/approve' , "Admin\AdminController@approve");
+            Route::get('/approve' , "Admin\AdminController@approve")->name('post.aprove');
             Route::get('/approveComments' , "Admin\AdminController@comments");
             Route::get('/deleteAll',"Admin\AdminController@deleteComment");
             Route::get('/sort' , "Admin\AdminController@sort" );
@@ -52,6 +52,7 @@ Route::group(['middleware' => ['auth']] , function ()
             Route::get('users/{id}/show' , 'Admin\UserController@show');
             Route::get('category/{id}/show' , 'Admin\CategoryController@show');
             Route::get('comment/{id}/show' , 'Admin\AdminController@showComment');
+            Route::get('post/{id}/show' , 'Admin\AdminController@showPost');
 
 
             Route::post('/approveComments/{id}' ,"Admin\AdminController@approveComment" );
@@ -59,6 +60,7 @@ Route::group(['middleware' => ['auth']] , function ()
             Route::post('/updatePost' ,"Admin\AdminController@updateOrder");
             Route::delete('/users/delete/{id}', 'Admin\UserController@destroy');
             Route::delete('/category/delete/{id}', 'Admin\CategoryController@destroy');
+            Route::delete('/posts/delete/{id}' , 'Admin\AdminController@delete');
             Route::resource('category' , "Admin\CategoryController"); 
             Route::resource('users' , "Admin\UserController");
 

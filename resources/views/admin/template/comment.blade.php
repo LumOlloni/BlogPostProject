@@ -31,28 +31,8 @@
     </div>
 </div>
 
-<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                        DELETE CONFIRMATION
-                </div>
-                <form action=""  id="deleteForm" method="post">
-                <div class="modal-body">
-                    {{ csrf_field() }}
-                    {{ method_field('DELETE') }}
-                    <p class="text-center">Are You Sure Want To Delete ?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                    <a  data-dismiss="modal" class="btn btn-danger  btn-ok">Delete</a>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
 @endsection
+
 @section('scripts')
 
     <script src="https://code.jquery.com/jquery.js"></script>

@@ -10,6 +10,7 @@ use App\Post;
 use App\User;
 use Carbon\Carbon;
 use App\Comment;
+use Response;
 use Spatie\Activitylog\Contracts\Activity;
 
 class AdminController extends Controller
@@ -51,10 +52,17 @@ class AdminController extends Controller
        
    }
 
+   public function showPost($id){
+
+        $post_id = array('id' => $id);
+        $post  = Post::where($post_id)->first();
+        return view('admin.template.showpost')->with('post' , $post);
+   }
+
    public function approvePost(Request $request,$id){
 
         $post = Post::find($id);
-       $updateValue =  $request->updateValue;
+       $updateValue =  $request->btn;
         if ($updateValue == 1) {
             $post->published =  $updateValue;
 
@@ -85,7 +93,7 @@ class AdminController extends Controller
             return response()->json(['success' => true]);
         }
         else {
-            toastr()->danger('Error request');
+           
 
             return response()->json(['error' => true]);
         }
@@ -101,9 +109,63 @@ class AdminController extends Controller
 
    public function approve()
    {
-        $post = Post::where('published' , '0')->get();
-        return view('admin.template.approve')->with('post' , $post);
-   }
+    $post = Post::join('users' , 'posts.user_id' , '=' , 'users.id')
+    ->select(['posts.id' , 'posts.body','users.name','posts.title' , 'posts.published']);
+    if(request()->ajax()) {
+
+      return datatables()->of($post)
+      ->addColumn('action', function($post){
+        $html='';
+        if($post->published==0){
+         
+            $html.='
+            <a href="javascript:void(0);" id="show-comment" data-toggle="tooltip" data-original-title="show" data-id="'. $post->id.'" class=" btn btn-warning ">
+            Show
+            </a>
+            <a href="javascript:void(0);" id="aprove" data-toggle="tooltip" data-original-title="show" value="1" data-id="'. $post->id.'" class=" manipulate btn btn-success button  ">
+            Accept
+          </a>
+          <a href="javascript:void(0);" id="aprove" data-toggle="tooltip" data-original-title="show" value="2" data-id="'. $post->id.'" class=" manipulate btn btn-danger button">
+            Reject
+          </a>
+          <a href="javascript:void(0);" id="delete" data-toggle="tooltip" data-original-title="show" value="1" data-id="'. $post->id.'" class=" manipulate btn btn-danger button">
+            Delete
+          </a>
+          ';
+        }if ($post->published==1) {
+
+            $html.='<a href="javascript:void(0);" id="show-comment" data-toggle="tooltip" data-original-title="show" data-id="'. $post->id.'" class=" btn btn-warning">
+            Show
+          </a>
+            <a href="javascript:void(0);" id="aprove" data-toggle="tooltip" data-original-title="show" value="2" data-id="'. $post->id.'" class=" manipulate btn btn-danger button  ">
+            Reject
+          </a>
+          <a href="javascript:void(0);" id="delete" data-toggle="tooltip" data-original-title="show" value="1" data-id="'. $post->id.'" class=" manipulate btn btn-danger button">
+            Delete
+          </a>
+          ';
+        }
+        if ($post->published==2) {
+
+          $html.= 'This Posts is Rejected <br>
+                <a href="javascript:void(0);" id="aprove" data-toggle="tooltip" data-original-title="show" value="1" data-id="'. $post->id.'" class=" manipulate btn btn-success button  ">
+                Accept
+                </a>
+                <a href="javascript:void(0);" id="delete" data-toggle="tooltip" data-original-title="show" value="1" data-id="'. $post->id.'" class=" manipulate btn btn-danger button">
+            Delete
+          </a>
+          ';
+        
+        }
+         return $html;
+      })
+      ->rawColumns(['action'])
+      ->addIndexColumn()
+      ->make(true);
+  }
+        return view('admin.template.approve');
+  }
+   
     public function comments (){
 
         $comment = Comment::where('published' , '0')->get();
@@ -132,7 +194,16 @@ class AdminController extends Controller
         }
         return response('Update Successfully.', 200);
     }
+    
 
+    public function delete($id){
+
+        $post = Post::where('id',$id)->first();
+        $post->delete();
+
+ 
+        return Response::json($post);
+    }
 
     public function approveComment(Request $request,$id){
       
