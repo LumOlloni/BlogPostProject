@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use Response;
+use App\Post;
+
 use App\DataTables\UserDataTable;
 use App\DataTables\UsersDataTablesEditor;
 
@@ -51,4 +53,8 @@ public function destroy($id)
     return Response::json($user);
 }
 
+
+
 }
+
+

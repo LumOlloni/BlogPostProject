@@ -14,6 +14,7 @@ use Auth;
 use Storage;
 use File;
 use DB;
+
 use Spatie\Activitylog\Contracts\Activity;
 
 
@@ -54,12 +55,7 @@ class PostController extends Controller
     public function update(EditPostValidation $request ,$id){
 
         $post = Post::find($id);
-        if ($post->user_id != Auth::user()->id) {
-            toastr()->warning('You cant edit this post');
-       
-            return redirect()->route("posts.index");
-        }
-        else {
+        if ($post->user_id == Auth::user()->id || Auth::user()->role_id == 2) {
 
             $post->slug = $request->input('slug'); 
             $post->title = $request->input('title'); 
@@ -78,11 +74,26 @@ class PostController extends Controller
                 ->causedBy(Auth::user()->id)
                 ->withProperties(['id' => $post->id , 'title' => $post->title , 'body'=>$post->body , 'slug' => $post->slug])
                 ->log('Update post  name '. $post->name .'' );
-    
-            toastr()->success('Post Update Succefully');
+            
+            if ( Auth::user()->role_id == 2) {
+
+                toastr()->success('Post Update Succefully');
            
-            return redirect()->route("posts.index");
-        }
+                return redirect('admin/home');
+            }   
+            else {
+
+                toastr()->success('Post Update Succefully');
+           
+                return redirect()->route("posts.index");
+             } 
+            }
+            else {
+                toastr()->warning('You cant edit this post');
+       
+               return redirect()->route("posts.index");
+            }
+     
 
     }
 

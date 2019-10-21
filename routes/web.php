@@ -58,6 +58,7 @@ Route::group(['middleware' => ['auth']] , function ()
             Route::post('/approveComments/{id}' ,"Admin\AdminController@approveComment" );
             Route::post('/approvePost/{id}' ,"Admin\AdminController@approvePost" );
             Route::post('/updatePost' ,"Admin\AdminController@updateOrder");
+            Route::patch('/update/{id}' , "Admin\AdminController@update")->name('admin.update');
             Route::delete('/users/delete/{id}', 'Admin\UserController@destroy');
             Route::delete('/category/delete/{id}', 'Admin\CategoryController@destroy');
             Route::delete('/posts/delete/{id}' , 'Admin\AdminController@delete');

@@ -11,6 +11,8 @@ use App\User;
 use Carbon\Carbon;
 use App\Comment;
 use Response;
+use App\Category;
+use App\Http\Requests\EditPostValidation;
 use Spatie\Activitylog\Contracts\Activity;
 
 class AdminController extends Controller
@@ -56,7 +58,8 @@ class AdminController extends Controller
 
         $post_id = array('id' => $id);
         $post  = Post::where($post_id)->first();
-        return view('admin.template.showpost')->with('post' , $post);
+        $categories = Category::all();
+        return view('admin.template.showpost')->with('post' , $post)->withCategories($categories);
    }
 
    public function approvePost(Request $request,$id){
@@ -248,6 +251,8 @@ class AdminController extends Controller
     }
        
     }
+
+    
 
 
 }
