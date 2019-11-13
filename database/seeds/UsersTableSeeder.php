@@ -14,7 +14,8 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        foreach (range(1,5) as $index) {
+
+        foreach (range(1, 20) as $index) {
             DB::table('users')->insert([
                 'name' => $faker->name,
                 'email' => $faker->email,
@@ -22,7 +23,9 @@ class UsersTableSeeder extends Seeder
                 'email_verified_at' => now(),
                 'role_id' => $faker->numberBetween(1, 2),
                 'password' => bcrypt('123456789'),
+                'image' => $faker->image('public/images/profileUser/', 400, 400, null, false),
                 'remember_token' => Str::random(10),
+
             ]);
         }
     }

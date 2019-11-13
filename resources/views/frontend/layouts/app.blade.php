@@ -7,12 +7,14 @@
     @yield('stylesheet')
     @include('frontend.partials._navbar')
 
+    <div id="app">
+        @yield('content')
+    </div>
 
-      @yield('content')
-
-
+      <script src="{{ URL::asset('js/app.js') }}"></script> 
       @yield('scripts')
-
+   
+     
     @include('frontend.partials._footer')
     
     @include('frontend.partials._scripts')

@@ -2086,7 +2086,7 @@ if (document.querySelectorAll('.btnRequest')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\blog\resources\js\approve.js */"./resources/js/approve.js");
+module.exports = __webpack_require__(/*! C:\Users\Lum\Desktop\BlogPostProject\resources\js\approve.js */"./resources/js/approve.js");
 
 
 /***/ })

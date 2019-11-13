@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Post;
 
-use DB;
+use App\Post;
+use App\User;
+use Auth;
+
+use App\Http\Controllers\Controller;
+
 
 class HomeController extends Controller
 {
@@ -16,7 +19,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth','verified']);
+        $this->middleware(['auth', 'verified']);
     }
 
     /**
@@ -29,10 +32,22 @@ class HomeController extends Controller
         return view('frontend.template.home');
     }
 
-    public function sortPostDate(){
-     
+    public function getNotFriends()
+    {
+        $not_friends = User::where('id', '!=', Auth::user()->id);
+
+        if (Auth::user()->friends->count()) {
+            $not_friends->whereNotIn('id', Auth::user()->friends->modelKeys());
+        }
+
+        $not_friends = $not_friends->get();
+
+        return response()->json($not_friends);
+    }
+
+    public function sortPostDate()
+    {
         $postDate = Post::orderBy('created_at', 'ASC')->get();
         return view('frontend.template.sortPost')->withPostDate($postDate);
     }
-   
 }

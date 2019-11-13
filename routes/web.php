@@ -12,78 +12,75 @@
 */
 
 // Protect routes with middleware Guest
-Route::group(['middleware' => ['guest']] , function ()
-{
-    Route::get('/admin' , function(){
+Route::group(['middleware' => ['guest']], function () {
+    Route::get('/admin', function () {
         return view('admin.template.login');
     });
-    Route::post('/admin' , "Admin\AdminController@login")->name("loginAdmin");
-    
+    Route::post('/admin', "Admin\AdminController@login")->name("loginAdmin");
+
     Route::get('/', function () {
         return view('frontend.template.index');
     });
+    Route::post('/registerUser', 'Auth\RegisterController@storeUser')->name('registerUser');
     Auth::routes();
-   
 });
 Auth::routes(['verify' => true]);
 
 
 
 // Protect routes with middleware Auth
-Route::group(['middleware' => ['auth']] , function ()
-{
+Route::group(['middleware' => ['auth']], function () {
 
-    Route::get('locale/{locale}' , function($locale){
-        Session::put('locale' , $locale);
+    Route::get('locale/{locale}', function ($locale) {
+        Session::put('locale', $locale);
         return redirect()->back();
     });
-   
+
     Route::group(['middleware' => ['admin']], function () {
-        
+
         // Route Prefix for Admin Url
-        Route::prefix('admin')->group(function () {  
+        Route::prefix('admin')->group(function () {
             // Get Route
-            Route::get('/home' ,'Admin\AdminController@index' );
-            Route::get('/approve' , "Admin\AdminController@approve")->name('post.aprove');
-            Route::get('/approveComments' , "Admin\AdminController@comments");
-            Route::get('/deleteAll',"Admin\AdminController@deleteComment");
-            Route::get('/sort' , "Admin\AdminController@sort" );
-            Route::get('user' , "Admin\UserController@anyData" )->name('get.users');
-            Route::get('users/{id}/show' , 'Admin\UserController@show');
-            Route::get('category/{id}/show' , 'Admin\CategoryController@show');
-            Route::get('comment/{id}/show' , 'Admin\AdminController@showComment');
-            Route::get('post/{id}/show' , 'Admin\AdminController@showPost');
+            Route::get('/home', 'Admin\AdminController@index');
+            Route::get('/approve', "Admin\AdminController@approve")->name('post.aprove');
+            Route::get('/approveComments', "Admin\AdminController@comments");
+            Route::get('/deleteAll', "Admin\AdminController@deleteComment");
+            Route::get('/sort', "Admin\AdminController@sort");
+            Route::get('user', "Admin\UserController@anyData")->name('get.users');
+            Route::get('users/{id}/show', 'Admin\UserController@show');
+            Route::get('category/{id}/show', 'Admin\CategoryController@show');
+            Route::get('comment/{id}/show', 'Admin\AdminController@showComment');
+            Route::get('post/{id}/show', 'Admin\AdminController@showPost');
 
 
-            Route::post('/approveComments/{id}' ,"Admin\AdminController@approveComment" );
-            Route::post('/approvePost/{id}' ,"Admin\AdminController@approvePost" );
-            Route::post('/updatePost' ,"Admin\AdminController@updateOrder");
-            Route::patch('/update/{id}' , "Admin\AdminController@update")->name('admin.update');
+            Route::post('/approveComments/{id}', "Admin\AdminController@approveComment");
+            Route::post('/approvePost/{id}', "Admin\AdminController@approvePost");
+            Route::post('/updatePost', "Admin\AdminController@updateOrder");
+            Route::patch('/update/{id}', "Admin\AdminController@update")->name('admin.update');
             Route::delete('/users/delete/{id}', 'Admin\UserController@destroy');
             Route::delete('/category/delete/{id}', 'Admin\CategoryController@destroy');
-            Route::delete('/posts/delete/{id}' , 'Admin\AdminController@delete');
-            Route::resource('category' , "Admin\CategoryController"); 
-            Route::resource('users' , "Admin\UserController");
-
-           
+            Route::delete('/posts/delete/{id}', 'Admin\AdminController@delete');
+            Route::resource('category', "Admin\CategoryController");
+            Route::resource('users', "Admin\UserController");
         });
     });
 
     // Logout Route
     Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
+    Route::get('/getNotFriends', 'HomeController@getNotFriends');
+    Route::get('/getFriends/{id}', 'FrontEnd\FriendController@getFriends');
+    Route::post('/friendRequest', "FrontEnd\FriendController@store");
 
     // Route prefix home url
-     Route::prefix('home')->group(function () {  
+    Route::prefix('home')->group(function () {
         Route::get('/', 'HomeController@index')->name('home');
-        Route::get('/sortDate' , 'HomeController@sortPostDate' )->name('sortDate');
-        Route::get('/sortAdmin' , 'FrontEnd\PostController@sortPostAdmin' )->name('sortAdmin');
-        Route::get('/{slug}' , ['as' => 'post.single' , 'uses' => "FrontEnd\PostController@getSingle"] )->where('slug' , '[\w\d\-\_]+');
-        Route::post('/search' , "FrontEnd\PostController@search")->name('search');
+        Route::get('/sortDate', 'HomeController@sortPostDate')->name('sortDate');
+        Route::get('/sortAdmin', 'FrontEnd\PostController@sortPostAdmin')->name('sortAdmin');
+        Route::get('/{slug}', ['as' => 'post.single', 'uses' => "FrontEnd\PostController@getSingle"])->where('slug', '[\w\d\-\_]+');
+        Route::post('/search', "FrontEnd\PostController@search")->name('search');
     });
-    
+
     // Route Resource
-        Route::resource('posts' , "FrontEnd\PostController");
-        Route::resource('comments' ,"FrontEnd\CommentController");
-
+    Route::resource('posts', "FrontEnd\PostController");
+    Route::resource('comments', "FrontEnd\CommentController");
 });
-

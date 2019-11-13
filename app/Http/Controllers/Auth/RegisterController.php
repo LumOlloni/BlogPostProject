@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\User;
-use App\Role;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
-use Spatie\Activitylog\Contracts\Activity;
 
-use Illuminate\Support\Facades\Validator;
+
+use App\User;
+use App\Http\Requests\UserValid;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
+use Illuminate\Foundation\Auth\RegistersUsers;
+
 
 class RegisterController extends Controller
 {
@@ -32,6 +35,7 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
+    // protected $fileName;
 
     /**
      * Create a new controller instance.
@@ -50,13 +54,7 @@ class RegisterController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
+    { }
 
     /**
      * Create a new user instance after a valid registration.
@@ -65,21 +63,33 @@ class RegisterController extends Controller
      * @return \App\User
      */
     protected function create(array $data)
-    {
-        $userActivity = new User;
-         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role_id' => 1 
-        ]);
-        activity()
-            ->performedOn( $userActivity)
-         ->causedBy(Auth::user()->id)
-            ->withProperties(['id' => $userActivity->id , 'name' => $userActivity->name , 'email'=>$userActivity->email])
-            ->log('New user created');
+    { }
 
-        
-      
+
+    public function storeUser(UserValid $request)
+    {
+
+        if ($request->hasFile('image')) {
+            $files = $request->file('image');
+
+            $ImageUpload = Image::make($files);
+            $originalPath = public_path('/images/profileUser/');
+            $ImageUpload->resize(400, 400);
+
+            $ImageUpload->save($originalPath . time() . $files->getClientOriginalName());
+            
+            $fileName = time() . $files->getClientOriginalName();
+        }
+
+        User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+            'image' => $fileName,
+            'role_id' => 1
+        ]);
+
+        session()->flash('success', ' Register Succesfully ');
+        return redirect()->back();
     }
 }
